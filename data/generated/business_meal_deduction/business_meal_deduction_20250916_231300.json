@@ -1,0 +1,30 @@
+{
+  "scenario_type": "business_meal_deduction",
+  "narrative": "John is a sales manager who took a potential client to lunch to discuss a new contract. He paid $500 for the meal at a business restaurant.",
+  "facts": [
+    {
+      "content": "John spent $500 on client lunch",
+      "type": "story"
+    },
+    {
+      "content": "Business meals are 50% deductible if ordinary and necessary",
+      "type": "rule"
+    },
+    {
+      "content": "Client meetings are ordinary business practice",
+      "type": "rule"
+    },
+    {
+      "content": "The expense qualifies for deduction",
+      "type": "conclusion"
+    }
+  ],
+  "question": "How much of John's meal expense is deductible?",
+  "correct_answer": "$250 (50% of $500)",
+  "reasoning_steps": [
+    "The meal was with a client for business purposes",
+    "Business meals are ordinary and necessary for sales work",
+    "Under IRC Section 274, business meals are 50% deductible",
+    "Therefore: $500 \u00d7 50% = $250 deductible"
+  ]
+}
