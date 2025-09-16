@@ -1,5 +1,5 @@
 """
-Data structures for Tax Law synthetic data generation.
+Core data structures for Tax Law synthetic data generation.
 Based on MuSR framework adapted for tax reasoning cases.
 """
 from dataclasses import dataclass
@@ -38,10 +38,26 @@ class TaxCase:
             "reasoning_steps": self.reasoning_steps
         }
     
-    def save_to_file(self, filepath: str):
-        """Save case to JSON file."""
+    def save_to_file(self, filepath: str = None):
+        """Save case to JSON file in organized folder structure."""
+        import os
+        from datetime import datetime
+        
+        if filepath is None:
+            # Create organized folder structure
+            base_dir = "data/generated"
+            scenario_dir = os.path.join(base_dir, self.scenario_type)
+            os.makedirs(scenario_dir, exist_ok=True)
+            
+            # Generate filename with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{self.scenario_type}_{timestamp}.json"
+            filepath = os.path.join(scenario_dir, filename)
+        
         with open(filepath, 'w') as f:
             json.dump(self.to_dict(), f, indent=2)
+        
+        return filepath
     
     def display(self):
         """Display the case in a readable format."""
@@ -87,6 +103,6 @@ if __name__ == "__main__":
     # Test the display
     case.display()
     
-    # Test saving to file
-    case.save_to_file("test_case.json")
-    print(f"\n✓ Case saved to test_case.json")
+    # Test saving to organized folder
+    saved_path = case.save_to_file()
+    print(f"\n✓ Case saved to {saved_path}")
