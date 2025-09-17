@@ -1,5 +1,5 @@
 # MuSR-SynTax Configuration File
-# Default settings for tax law synthetic data generation
+# Updated configuration for clean file organization
 
 # LLM Settings
 llm:
@@ -11,24 +11,27 @@ llm:
 # Generation Settings
 generation:
   max_cases_per_batch: 10
-  save_raw_llm_output: true
+  save_raw_llm_output: false  # Set to false to avoid duplicates
   include_generation_timestamp: true
   default_output_format: "json"
+  enable_quality_validation: true
 
-# Output Paths
+# Output Paths - Clean Organization
 paths:
-  generated_cases: "data/generated"
-  domain_templates: "data/templates" 
-  llm_raw_output: "data/generated/llm_raw"
-  examples: "examples"
+  generated_cases: "data/generated"           # Main case output directory
+  domain_templates: "data/templates"          # Domain template storage
+  debug_output: "data/debug"                  # Debug files (when explicitly enabled)
+  examples: "examples"                        # Example outputs
+  reports: "data"                             # Generation reports and summaries
 
-# Tax Domains
+# Tax Domains - Expanded List
 domains:
   default_enabled:
     - "business_meal_deduction"
     - "home_office_deduction"
     - "travel_expense_deduction" 
     - "charitable_donation_deduction"
+    - "vehicle_expense_deduction"
   
   # Default contexts for each domain
   default_contexts:
@@ -36,6 +39,7 @@ domains:
     home_office_deduction: "Freelance professional working from home"
     travel_expense_deduction: "Business trip for client meetings"
     charitable_donation_deduction: "Annual charitable giving"
+    vehicle_expense_deduction: "Business use of personal vehicle"
 
 # Quality Control
 quality:
@@ -44,9 +48,19 @@ quality:
   min_reasoning_steps: 3
   max_reasoning_steps: 5
   require_all_fact_types: true  # story, rule, conclusion
+  validate_case_structure: true
+  min_narrative_length: 100
+
+# File Management
+file_management:
+  auto_save_templates: true
+  organize_by_scenario: true
+  prevent_duplicates: true
+  cleanup_old_files: false     # Set to true for automated cleanup
 
 # Logging
 logging:
   level: "INFO"
   save_generation_logs: true
   log_file: "logs/generation.log"
+  include_debug_info: false    # Reduces verbose output
