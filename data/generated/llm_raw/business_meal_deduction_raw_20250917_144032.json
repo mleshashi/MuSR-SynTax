@@ -1,0 +1,18 @@
+{
+  "raw_facts": [
+    "A business dinner is considered ordinary and necessary for client entertainment",
+    "Client entertainment expenses include meals at a business dinner",
+    "Meals with existing business clients qualify for the business meal deduction",
+    "The business meal deduction applies to meals at a private dining area in a restaurant",
+    "Food and beverages at a business conference qualify as ordinary business expenses"
+  ],
+  "raw_narrative": "It was a crisp winter evening when I met with my top client, Rachel, at a quaint Italian restaurant downtown. As we perused the menu, I couldn't help but think about the importance of building strong relationships with our valued clients. Rachel had been a loyal partner for years, and I wanted to make sure she felt appreciated and heard. We had a lot to discuss, from project updates to potential new collaborations, and I knew that a casual dinner setting would be the perfect environment for an open and productive conversation.\n\nAs we enjoyed our meals and sipped our wine, the conversation flowed effortlessly. We talked about everything from the latest industry trends to our personal interests. It was clear that Rachel felt at ease, and I was grateful for the opportunity to strengthen our partnership in a relaxed setting. The dinner was a reminder that, in today's fast-paced business world, face-to-face interactions are still invaluable. By taking the time to connect with clients like Rachel, I knew that our company would continue to thrive and grow.\n\nThe evening ended with a clear understanding of our next steps and a renewed sense of commitment to our working relationship. As I tallied up the expenses in my ledger, I made a note to claim the business meal deduction for the dinner. Since the meal was considered ordinary and necessary for client entertainment, I was confident that it would qualify as a legitimate business expense. Meals with existing business clients like Rachel were an essential part of building and maintaining strong professional relationships, and I was happy to have the opportunity to deduct the expense.",
+  "question": "How much of the meal expense is deductible?",
+  "answer": "50% of the meal cost (subject to IRC Section 274)",
+  "reasoning_steps": [
+    "A business dinner is considered ordinary and necessary for client entertainment, which includes meals at a business dinner.",
+    "Client entertainment expenses include meals at a business dinner, and since a business dinner is one type of client entertainment, this means meals at a business dinner are eligible for a deduction.",
+    "The business meal deduction applies to meals at a private dining area in a restaurant, which includes the type of meal described in the business dinner scenario, allowing for a deduction.",
+    "Since the business meal deduction is subject to IRC Section 274, which stipulates a 50% limit on deductibility for business meal expenses, this means 50% of the meal cost, not the entire cost, is deductible."
+  ]
+}

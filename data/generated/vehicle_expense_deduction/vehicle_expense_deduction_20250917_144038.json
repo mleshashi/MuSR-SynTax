@@ -1,0 +1,34 @@
+{
+  "scenario_type": "vehicle_expense_deduction",
+  "narrative": "As I sat down to tackle my 2023 taxes, I couldn't help but think about the miles I had put on my trusty old sedan. Between driving to client meetings and shuttling around the city for work events, my vehicle had been my faithful companion all year. I decided to take a closer look at my records to see if I had enough documentation to claim the standard mileage rate for business use of a vehicle. A quick check revealed that the standard mileage rate for 2023 was 65.5 cents per mile, which seemed like a reasonable estimate considering the rising cost of fuel and maintenance.\n\nI remembered keeping a log throughout the year to track my business and personal use miles, which would come in handy for calculating my business use percentage. According to my records, I had driven a total of 12,000 miles in 2023, with 8,000 miles dedicated to business use. This worked out to a business use percentage of approximately 66.7%. Given that my vehicle was used for more than 50% business purposes, I decided to claim the standard mileage rate for my business use miles. Using this rate, I was able to calculate my deduction as 8,000 miles x 65.5 cents per mile, which came out to a tidy $5,240.\n\nI was relieved to have a clear and straightforward solution for my vehicle expense deduction. I made a mental note to continue keeping my log up to date in 2024, as the standard mileage rate was increasing to 69.6 cents per mile. This would give me a chance to take advantage of the higher rate and potentially claim an even larger deduction. With my vehicle expense deduction squared away, I felt more confident and prepared to tackle the rest of my taxes.",
+  "facts": [
+    {
+      "content": "The standard mileage rate for business use of a vehicle is 65.5 cents per mile for 2023 and 69.6 cents for 2024.",
+      "type": "story"
+    },
+    {
+      "content": "Actual expenses for business use of a vehicle may include depreciation, but only if the vehicle is used for 50% or more business purposes.",
+      "type": "rule"
+    },
+    {
+      "content": "To determine the business use percentage, add a log or calendar to keep track of business and personal use miles.",
+      "type": "rule"
+    },
+    {
+      "content": "If you choose the standard mileage rate, you may not deduct actual expenses for gas, maintenance, and repairs.",
+      "type": "story"
+    },
+    {
+      "content": "If you choose the actual expense method, you must keep accurate records of total miles driven to determine the business use percentage.",
+      "type": "rule"
+    }
+  ],
+  "question": "What vehicle expenses are deductible?",
+  "correct_answer": "Business use percentage of total vehicle costs",
+  "reasoning_steps": [
+    "To determine the business use percentage of total vehicle costs, consider the following steps:",
+    "To deduct vehicle expenses, calculate the business use percentage by tracking business and personal miles using a log or calendar to determine the proportion of business use.",
+    "This business use percentage can then be applied to total vehicle costs to determine the deductible amount.",
+    "If the vehicle is used for 50% or more business purposes, actual expenses including depreciation may be deductible, otherwise the standard mileage rate is a simpler option."
+  ]
+}

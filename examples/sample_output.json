@@ -1,0 +1,34 @@
+{
+  "scenario_type": "business_meal_deduction",
+  "narrative": "As the marketing lead for our tech startup, I've had the pleasure of working closely with our cross-functional team to develop innovative strategies that drive growth and success. Last quarter, we decided to take a break from our usual routine and gather for a team-building dinner at an upscale restaurant. It was a great opportunity for us to bond over a delicious meal and discuss our progress, challenges, and future plans. We spent around $800 on this evening, which may seem like a significant expense, but I firmly believe it was worth every penny. By fostering a sense of camaraderie and shared purpose, we were able to tackle complex projects with renewed energy and creativity.\n\nOur team's ability to work collaboratively has been instrumental in securing key client meetings and sales pitches. In fact, last month we landed a major contract with a prominent tech firm, thanks in large part to our team's collective effort and expertise. During these meetings, we often discuss the client's specific needs and tailor our pitch to showcase our unique value proposition. These interactions not only help us build strong relationships with our clients but also provide valuable insights into the industry landscape, allowing us to refine our strategies and stay ahead of the competition.\n\nAs we continue to navigate the fast-paced world of marketing, I'm confident that our team-building efforts will remain an essential component of our success. By investing in our people and our relationships, we're able to drive business results that would be difficult to achieve otherwise. The $800 we spent on dinner may seem like a significant expense, but it's a small price to pay for the increased productivity, creativity, and client engagement that our team-building efforts have yielded.",
+  "facts": [
+    {
+      "content": "Sarah spent $800 on team-building dinner at an upscale restaurant",
+      "type": "story"
+    },
+    {
+      "content": "Business meals are considered ordinary and necessary for team-building",
+      "type": "story"
+    },
+    {
+      "content": "Client meetings and sales pitches are ordinary business practice for marketing",
+      "type": "story"
+    },
+    {
+      "content": "At the dinner, 10 sales team members and 2 clients were present",
+      "type": "story"
+    },
+    {
+      "content": "The dinner was held at a hotel conference room near the office",
+      "type": "story"
+    }
+  ],
+  "question": "How much of the meal expense is deductible?",
+  "correct_answer": "50% of the meal cost (subject to IRC Section 274)",
+  "reasoning_steps": [
+    "The meal expense is deductible as it falls under the category of ordinary and necessary team-building activities for business purposes.",
+    "The dinner was held at a hotel conference room near the office, which is a more neutral and business-oriented setting compared to an upscale restaurant.",
+    "Since 2 out of 12 attendees are clients, the majority of the attendees are sales team members, making the dinner a team-building event rather than solely a client entertainment expense.",
+    "According to IRC Section 274, 50% of the meal expense is deductible, regardless of the specific business purpose, so 50% of the $800 expense is deductible."
+  ]
+}
