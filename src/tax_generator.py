@@ -17,23 +17,31 @@ class TaxGenerator:
     Implements MuSR framework: Template → Reasoning → Story Generation
     """
     
-    def __init__(self, api_key: Optional[str] = None):
-        """Initialize the tax generator with LLM client."""
+    def __init__(self, api_key: Optional[str] = None) -> None:
+        """
+        Initialize the tax generator with LLM client.
+        
+        Args:
+            api_key: Optional Groq API key. If None, reads from GROQ_API_KEY env var
+            
+        Returns:
+            None
+        """
         self.llm_client = GroqClient(api_key=api_key)
         self.generation_history = []
     
     def generate_case(self, scenario_type: str, context: str = "", 
                      save_raw_llm_output: bool = True) -> TaxCase:
         """
-        Generate a complete tax reasoning case.
+        Generate a complete tax reasoning case using MuSR framework.
         
         Args:
             scenario_type: Type of tax scenario (e.g., "business_meal_deduction")
-            context: Additional context for generation
-            save_raw_llm_output: Whether to save raw LLM outputs for debugging
+            context: Additional context for generation (default: "")
+            save_raw_llm_output: Whether to save raw LLM outputs for debugging (default: True)
             
         Returns:
-            Complete TaxCase object
+            Complete TaxCase object with structured facts, narrative, and reasoning
         """
         print(f"Generating {scenario_type} case...")
         
@@ -92,8 +100,14 @@ class TaxGenerator:
     def generate_multiple_cases(self, scenario_types: List[str], 
                               count_per_type: int = 2) -> List[TaxCase]:
         """
-        Generate multiple cases across different tax domains.
-        Demonstrates system extensibility.
+        Generate multiple cases across different tax domains to demonstrate extensibility.
+        
+        Args:
+            scenario_types: List of tax scenario types to generate cases for
+            count_per_type: Number of cases to generate per scenario type (default: 2)
+            
+        Returns:
+            List of generated TaxCase objects across all specified domains
         """
         cases = []
         for scenario_type in scenario_types:
@@ -105,14 +119,39 @@ class TaxGenerator:
         return cases
     
     def _generate_question_answer(self, scenario_type: str, facts: List[str]) -> tuple[str, str]:
-        """Generate appropriate question and answer for the scenario."""
+        """
+        Generate appropriate question and answer pair for the scenario.
         
-        # Simple mapping for different scenario types
+        Args:
+            scenario_type: Type of tax scenario (e.g., "business_meal_deduction")
+            facts: List of facts (currently unused but available for future enhancements)
+            
+        Returns:
+            Tuple of (question, answer) strings appropriate for the scenario type
+        """
+        
+        # Improved mapping with realistic answers
         question_templates = {
-            'business_meal_deduction': ('How much of the meal expense is deductible?', 'Calculate 50% deduction'),
-            'home_office_deduction': ('What percentage of home expenses can be deducted?', 'Calculate business use percentage'),
-            'travel_expense': ('Which travel expenses are deductible?', 'Identify business-related expenses'),
-            'charitable_donation': ('How much charitable deduction is allowed?', 'Apply donation limits')
+            'business_meal_deduction': (
+                'How much of the meal expense is deductible?', 
+                '50% of the meal cost (subject to IRC Section 274)'
+            ),
+            'home_office_deduction': (
+                'What percentage of home expenses can be deducted?', 
+                'Business use percentage of total home area'
+            ),
+            'travel_expense_deduction': (
+                'Which travel expenses are deductible?', 
+                'Ordinary and necessary business travel costs'
+            ),
+            'charitable_donation_deduction': (
+                'How much charitable deduction is allowed?', 
+                'Up to AGI limits under IRC Section 170'
+            ),
+            'vehicle_expense_deduction': (
+                'What vehicle expenses are deductible?',
+                'Business use percentage of total vehicle costs'
+            )
         }
         
         template = question_templates.get(scenario_type, 
@@ -120,8 +159,17 @@ class TaxGenerator:
         
         return template[0], template[1]
     
-    def _save_raw_output(self, scenario_type: str, raw_data: Dict[str, Any]):
-        """Save raw LLM outputs for debugging and improvement."""
+    def _save_raw_output(self, scenario_type: str, raw_data: Dict[str, Any]) -> None:
+        """
+        Save raw LLM outputs for debugging and system improvement.
+        
+        Args:
+            scenario_type: Type of tax scenario for filename organization
+            raw_data: Dictionary containing all raw LLM outputs (facts, narrative, etc.)
+            
+        Returns:
+            None - saves data to timestamped JSON file in llm_raw directory
+        """
         raw_dir = "data/generated/llm_raw"
         os.makedirs(raw_dir, exist_ok=True)
         
@@ -133,7 +181,12 @@ class TaxGenerator:
             json.dump(raw_data, f, indent=2)
     
     def get_generation_stats(self) -> Dict[str, Any]:
-        """Get statistics about generated cases."""
+        """
+        Get comprehensive statistics about generated cases.
+        
+        Returns:
+            Dictionary containing total cases, scenario breakdown, and latest generation timestamp
+        """
         if not self.generation_history:
             return {"total_cases": 0}
         

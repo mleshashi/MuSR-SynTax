@@ -32,7 +32,13 @@ class TaxDomainTemplate:
 class TaxDomainManager:
     """Manages different tax domain templates for case generation."""
     
-    def __init__(self):
+    def __init__(self) -> None:
+        """
+        Initialize domain manager and load default tax domains.
+        
+        Returns:
+            None
+        """
         self.domains = {}
         self._initialize_default_domains()
     
@@ -161,7 +167,18 @@ class TaxDomainManager:
         }
     
     def get_domain(self, domain_name: str) -> TaxDomainTemplate:
-        """Get a specific tax domain template."""
+        """
+        Get a specific tax domain template by name.
+        
+        Args:
+            domain_name: Name of the tax domain to retrieve
+            
+        Returns:
+            TaxDomainTemplate object for the requested domain
+            
+        Raises:
+            ValueError: If domain_name is not found in available domains
+        """
         if domain_name not in self.domains:
             raise ValueError(f"Domain '{domain_name}' not found. Available: {list(self.domains.keys())}")
         return self.domains[domain_name]

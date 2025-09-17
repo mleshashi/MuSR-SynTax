@@ -3,8 +3,10 @@ Core data structures for Tax Law synthetic data generation.
 Based on MuSR framework adapted for tax reasoning cases.
 """
 from dataclasses import dataclass
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import json
+import os
+from datetime import datetime
 
 
 def classify_fact_type(fact: str) -> str:
@@ -12,10 +14,10 @@ def classify_fact_type(fact: str) -> str:
     Simple classifier to determine fact type from content.
     
     Args:
-        fact: The fact text to classify
+        fact: The fact text content to classify
         
     Returns:
-        "story", "rule", or "conclusion"
+        Classification as "story", "rule", or "conclusion"
     """
     fact_lower = fact.lower()
     
@@ -41,7 +43,13 @@ class TaxFact:
     content: str
     fact_type: str  # "story", "rule", or "conclusion"
     
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        String representation of the tax fact.
+        
+        Returns:
+            Formatted string showing fact type and content in format "[type] content"
+        """
         return f"[{self.fact_type}] {self.content}"
 
 
@@ -58,20 +66,21 @@ class TaxCase:
     @classmethod
     def from_llm_output(cls, scenario_type: str, llm_facts: List[str], 
                        narrative: str, question: str, answer: str, 
-                       reasoning_steps: List[str]):
+                       reasoning_steps: List[str]) -> 'TaxCase':
         """
-        Create TaxCase from LLM-generated content.
-        Automatically classifies facts into types.
+        Create TaxCase from LLM-generated content with automatic fact classification.
         
         Args:
-            scenario_type: Type of tax scenario
-            llm_facts: Raw facts from LLM
-            narrative: Generated narrative
-            question: The question
-            answer: The answer
-            reasoning_steps: Reasoning steps
+            scenario_type: Type of tax scenario (e.g., "business_meal_deduction")
+            llm_facts: Raw facts from LLM as list of strings
+            narrative: Generated narrative story
+            question: The tax question being asked
+            answer: The correct answer
+            reasoning_steps: List of reasoning steps as strings
+            
+        Returns:
+            Complete TaxCase instance with classified facts
         """
-        # Simple heuristic to classify facts
         classified_facts = []
         for fact in llm_facts:
             fact_type = classify_fact_type(fact)
@@ -87,7 +96,12 @@ class TaxCase:
         )
     
     def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for JSON export."""
+        """
+        Convert TaxCase to dictionary for JSON export.
+        
+        Returns:
+            Dictionary representation with all case data including facts as dicts
+        """
         return {
             "scenario_type": self.scenario_type,
             "narrative": self.narrative,
@@ -97,11 +111,16 @@ class TaxCase:
             "reasoning_steps": self.reasoning_steps
         }
     
-    def save_to_file(self, filepath: str = None):
-        """Save case to JSON file in organized folder structure."""
-        import os
-        from datetime import datetime
+    def save_to_file(self, filepath: Optional[str] = None) -> str:
+        """
+        Save case to JSON file in organized folder structure.
         
+        Args:
+            filepath: Optional custom filepath. If None, generates organized path with timestamp
+            
+        Returns:
+            The filepath where the case was saved
+        """
         if filepath is None:
             # Create organized folder structure
             base_dir = "data/generated"
@@ -118,8 +137,13 @@ class TaxCase:
         
         return filepath
     
-    def display(self):
-        """Display the case in a readable format."""
+    def display(self) -> None:
+        """
+        Display the case in a readable format to console.
+        
+        Returns:
+            None - prints formatted case information to console
+        """
         print(f"\n=== {self.scenario_type.replace('_', ' ').title()} Case ===")
         print(f"\nNarrative:\n{self.narrative}")
         
@@ -137,7 +161,7 @@ class TaxCase:
 
 # Example usage for testing
 if __name__ == "__main__":
-    # Create a simple tax case
+    # Example 1: Manual creation
     facts = [
         TaxFact("John spent $500 on client lunch", "story"),
         TaxFact("Business meals are 50% deductible if ordinary and necessary", "rule"),
@@ -159,33 +183,37 @@ if __name__ == "__main__":
         ]
     )
     
-    # Test the display
     case.display()
-    
-    # Test saving to organized folder
     saved_path = case.save_to_file()
     print(f"\n✓ Case saved to {saved_path}")
     
-    # Test the conversion utility
+    # Example 2: From LLM output (demonstrates conversion)
     print(f"\n=== Testing LLM Integration ===")
     
     llm_facts = [
-        "John spent $500 on client lunch",
-        "Business meals are 50% deductible under IRC Section 274", 
-        "The expense qualifies for deduction"
+        "Sarah works from home as a freelance graphic designer",
+        "Home office deduction requires exclusive business use",
+        "The home office space is 200 sq ft of a 2000 sq ft home",
+        "Business percentage is 10% of total home expenses",
+        "Sarah can deduct 10% of qualifying home expenses"
     ]
     
     case_from_llm = TaxCase.from_llm_output(
-        scenario_type="business_meal_deduction",
+        scenario_type="home_office_deduction",
         llm_facts=llm_facts,
-        narrative="John took a client to lunch to discuss business.",
-        question="How much is deductible?",
-        answer="$250",
-        reasoning_steps=["Meal was for business", "50% deductible", "$500 × 50% = $250"]
+        narrative="Sarah is a freelance graphic designer who uses a dedicated room in her home exclusively for business. She wants to claim the home office deduction.",
+        question="What percentage of home expenses can Sarah deduct?",
+        answer="10% (200 sq ft ÷ 2000 sq ft)",
+        reasoning_steps=[
+            "Home office is used exclusively for business",
+            "Office space is 200 sq ft of 2000 sq ft total",
+            "Business percentage = 200 ÷ 2000 = 10%",
+            "Therefore, 10% of qualifying expenses are deductible"
+        ]
     )
     
-    print(f"LLM Facts converted to:")
-    for fact in case_from_llm.facts:
-        print(f"  • {fact}")
+    case_from_llm.display()
+    saved_path2 = case_from_llm.save_to_file()
+    print(f"\n✓ Second case saved to {saved_path2}")
     
-    print(f"\n✓ Conversion utility working!")
+    print(f"\n✓ Core module ready for case study!")
