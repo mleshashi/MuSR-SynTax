@@ -32,15 +32,19 @@ class TaxDomainTemplate:
 class TaxDomainManager:
     """Manages different tax domain templates for case generation."""
     
-    def __init__(self) -> None:
+    def __init__(self, auto_save_templates: bool = True) -> None:
         """
         Initialize domain manager and load default tax domains.
         
-        Returns:
-            None
+        Args:
+            auto_save_templates: Whether to automatically save templates to file on init
         """
         self.domains = {}
         self._initialize_default_domains()
+        
+        # Auto-save templates on initialization
+        if auto_save_templates:
+            self.save_domains_to_file()
     
     def _initialize_default_domains(self):
         """Initialize the built-in tax domains."""
@@ -157,13 +161,41 @@ class TaxDomainManager:
                 "30% AGI limitation for capital gain property"
             ]
         )
+
+        # Vehicle Expense Domain (commonly requested)
+        vehicle_expenses = TaxDomainTemplate(
+            domain_name="vehicle_expense_deduction", 
+            description="Business vehicle expense deductions under IRC Section 162",
+            typical_questions=[
+                "What vehicle expenses are deductible?",
+                "Should I use standard mileage or actual expense method?"
+            ],
+            reasoning_pattern=[
+                "Determine business vs. personal use percentage",
+                "Choose between standard mileage and actual expense method", 
+                "Calculate allowable business deduction",
+                "Apply record-keeping requirements"
+            ],
+            required_facts=[
+                "total_miles_driven",
+                "business_miles", 
+                "vehicle_expenses",
+                "method_preference"
+            ],
+            tax_rules=[
+                "IRC Section 162 - Business expenses",
+                "Standard mileage rate (IRS Notice)",
+                "Actual expense method rules"
+            ]
+        )
         
         # Register all domains
         self.domains = {
             'business_meal_deduction': business_meals,
             'home_office_deduction': home_office,
             'travel_expense_deduction': travel_expenses,
-            'charitable_donation_deduction': charitable_donations
+            'charitable_donation_deduction': charitable_donations,
+            'vehicle_expense_deduction': vehicle_expenses
         }
     
     def get_domain(self, domain_name: str) -> TaxDomainTemplate:
@@ -188,10 +220,12 @@ class TaxDomainManager:
         return self.domains.copy()
     
     def add_custom_domain(self, domain: TaxDomainTemplate):
-        """Add a custom tax domain template."""
+        """Add a custom tax domain template and update saved templates."""
         self.domains[domain.domain_name] = domain
+        # Auto-update the templates file
+        self.save_domains_to_file()
     
-    def save_domains_to_file(self, filepath: str = "data/templates/tax_domains.json"):
+    def save_domains_to_file(self, filepath: str = "data/templates/tax_domains.json") -> str:
         """Save all domain templates to a JSON file."""
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
         
@@ -200,10 +234,25 @@ class TaxDomainManager:
             for name, domain in self.domains.items()
         }
         
+        # Add metadata
+        template_file = {
+            "metadata": {
+                "description": "Tax domain templates for MuSR-SynTax case generation",
+                "total_domains": len(domains_data),
+                "last_updated": self._get_timestamp()
+            },
+            "domains": domains_data
+        }
+        
         with open(filepath, 'w') as f:
-            json.dump(domains_data, f, indent=2)
+            json.dump(template_file, f, indent=2)
         
         return filepath
+    
+    def _get_timestamp(self) -> str:
+        """Get current timestamp for metadata."""
+        from datetime import datetime
+        return datetime.now().isoformat()
     
     def get_domain_context(self, domain_name: str) -> str:
         """Get contextual information for LLM generation."""
@@ -226,46 +275,3 @@ Relevant tax rules:
         """Get a typical question for the domain."""
         domain = self.get_domain(domain_name)
         return domain.typical_questions[0] if domain.typical_questions else "What is the tax treatment?"
-
-
-# Example usage and testing
-if __name__ == "__main__":
-    # Initialize domain manager
-    manager = TaxDomainManager()
-    
-    print("=== Available Tax Domains ===")
-    for name, domain in manager.get_all_domains().items():
-        print(f"\n{name}:")
-        print(f"  Description: {domain.description}")
-        print(f"  Questions: {len(domain.typical_questions)}")
-        print(f"  Reasoning steps: {len(domain.reasoning_pattern)}")
-    
-    # Test domain context generation
-    print(f"\n=== Domain Context Example ===")
-    context = manager.get_domain_context("business_meal_deduction")
-    print(context)
-    
-    # Save domains to file
-    saved_path = manager.save_domains_to_file()
-    print(f"\n✓ Domain templates saved to {saved_path}")
-    
-    # Test adding custom domain
-    print(f"\n=== Custom Domain Example ===")
-    custom_domain = TaxDomainTemplate(
-        domain_name="equipment_depreciation",
-        description="Business equipment depreciation under IRC Section 168",
-        typical_questions=["What is the depreciation deduction?"],
-        reasoning_pattern=[
-            "Determine asset class and recovery period",
-            "Apply depreciation method",
-            "Calculate annual deduction"
-        ],
-        required_facts=["asset_cost", "asset_type", "placed_in_service_date"],
-        tax_rules=["IRC Section 168 - MACRS"]
-    )
-    
-    manager.add_custom_domain(custom_domain)
-    print(f"Added custom domain: {custom_domain.domain_name}")
-    print(f"Total domains: {len(manager.get_all_domains())}")
-    
-    print(f"\n✓ Tax domains system working correctly!")
