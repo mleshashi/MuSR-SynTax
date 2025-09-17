@@ -1,0 +1,107 @@
+{
+  "business_meal_deduction": {
+    "domain_name": "business_meal_deduction",
+    "description": "Business meal expenses and their deductibility under IRC Section 274",
+    "typical_questions": [
+      "How much of the meal expense is deductible?",
+      "What percentage of business meals can be deducted?",
+      "Is this meal expense qualifying for deduction?"
+    ],
+    "reasoning_pattern": [
+      "Identify the expense amount and business purpose",
+      "Verify the meal meets 'ordinary and necessary' criteria",
+      "Apply IRC Section 274 deduction percentage (50%)",
+      "Calculate the deductible amount"
+    ],
+    "required_facts": [
+      "expense_amount",
+      "business_purpose",
+      "participants_present",
+      "meal_type_and_location"
+    ],
+    "tax_rules": [
+      "IRC Section 274 - Entertainment expenses",
+      "50% limitation on business meals",
+      "Ordinary and necessary business expense test"
+    ]
+  },
+  "home_office_deduction": {
+    "domain_name": "home_office_deduction",
+    "description": "Home office expenses for business use of home under IRC Section 280A",
+    "typical_questions": [
+      "What percentage of home expenses can be deducted?",
+      "Is the home office deduction allowed?",
+      "How much can be claimed for home office expenses?"
+    ],
+    "reasoning_pattern": [
+      "Verify exclusive business use of space",
+      "Calculate business percentage of home",
+      "Identify qualifying home expenses",
+      "Apply business percentage to expenses"
+    ],
+    "required_facts": [
+      "office_square_footage",
+      "total_home_square_footage",
+      "exclusive_business_use",
+      "qualifying_expenses"
+    ],
+    "tax_rules": [
+      "IRC Section 280A - Business use of home",
+      "Exclusive use test",
+      "Regular use test",
+      "Principal place of business test"
+    ]
+  },
+  "travel_expense_deduction": {
+    "domain_name": "travel_expense_deduction",
+    "description": "Business travel expenses and their deductibility under IRC Section 162",
+    "typical_questions": [
+      "Which travel expenses are deductible?",
+      "Is this trip primarily for business?",
+      "How much travel expense can be deducted?"
+    ],
+    "reasoning_pattern": [
+      "Determine if travel is away from tax home",
+      "Verify business purpose of travel",
+      "Identify ordinary and necessary expenses",
+      "Calculate deductible amounts"
+    ],
+    "required_facts": [
+      "travel_destination",
+      "business_purpose",
+      "duration_of_trip",
+      "expense_breakdown"
+    ],
+    "tax_rules": [
+      "IRC Section 162 - Business expenses",
+      "Away from home test",
+      "Temporary vs. indefinite assignment rules"
+    ]
+  },
+  "charitable_donation_deduction": {
+    "domain_name": "charitable_donation_deduction",
+    "description": "Charitable contribution deductions under IRC Section 170",
+    "typical_questions": [
+      "How much charitable deduction is allowed?",
+      "Is this organization qualified for deductions?",
+      "What are the donation limits?"
+    ],
+    "reasoning_pattern": [
+      "Verify qualified charitable organization",
+      "Determine contribution amount and type",
+      "Apply AGI limitation percentages",
+      "Calculate allowable deduction"
+    ],
+    "required_facts": [
+      "organization_status",
+      "donation_amount",
+      "donation_type",
+      "taxpayer_agi"
+    ],
+    "tax_rules": [
+      "IRC Section 170 - Charitable contributions",
+      "50% AGI limitation for cash donations",
+      "30% AGI limitation for capital gain property"
+    ]
+  }
+}
