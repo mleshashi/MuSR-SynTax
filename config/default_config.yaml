@@ -1,0 +1,52 @@
+# MuSR-SynTax Configuration File
+# Default settings for tax law synthetic data generation
+
+# LLM Settings
+llm:
+  provider: "groq"
+  model: "llama-3.1-8b-instant"
+  temperature: 0.7
+  max_tokens: 1000
+
+# Generation Settings
+generation:
+  max_cases_per_batch: 10
+  save_raw_llm_output: true
+  include_generation_timestamp: true
+  default_output_format: "json"
+
+# Output Paths
+paths:
+  generated_cases: "data/generated"
+  domain_templates: "data/templates" 
+  llm_raw_output: "data/generated/llm_raw"
+  examples: "examples"
+
+# Tax Domains
+domains:
+  default_enabled:
+    - "business_meal_deduction"
+    - "home_office_deduction"
+    - "travel_expense_deduction" 
+    - "charitable_donation_deduction"
+  
+  # Default contexts for each domain
+  default_contexts:
+    business_meal_deduction: "Sales team client meeting"
+    home_office_deduction: "Freelance professional working from home"
+    travel_expense_deduction: "Business trip for client meetings"
+    charitable_donation_deduction: "Annual charitable giving"
+
+# Quality Control
+quality:
+  min_facts_per_case: 4
+  max_facts_per_case: 7
+  min_reasoning_steps: 3
+  max_reasoning_steps: 5
+  require_all_fact_types: true  # story, rule, conclusion
+
+# Logging
+logging:
+  level: "INFO"
+  save_generation_logs: true
+  log_file: "logs/generation.log"
