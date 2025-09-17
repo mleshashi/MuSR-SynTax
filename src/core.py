@@ -7,6 +7,34 @@ from typing import List, Dict, Any
 import json
 
 
+def classify_fact_type(fact: str) -> str:
+    """
+    Simple classifier to determine fact type from content.
+    
+    Args:
+        fact: The fact text to classify
+        
+    Returns:
+        "story", "rule", or "conclusion"
+    """
+    fact_lower = fact.lower()
+    
+    # Rule indicators
+    rule_keywords = ['deductible', 'section', 'irc', 'code', 'law', 'regulation', 
+                    'must be', 'required', 'percent', '%', 'under']
+    if any(keyword in fact_lower for keyword in rule_keywords):
+        return "rule"
+    
+    # Conclusion indicators  
+    conclusion_keywords = ['qualifies', 'therefore', 'result', 'conclusion', 
+                          'deduction allowed', 'not deductible']
+    if any(keyword in fact_lower for keyword in conclusion_keywords):
+        return "conclusion"
+    
+    # Default to story (what happened)
+    return "story"
+
+
 @dataclass
 class TaxFact:
     """A single fact in our tax reasoning case."""
@@ -26,6 +54,37 @@ class TaxCase:
     question: str              # What we're asking
     correct_answer: str        # The right answer
     reasoning_steps: List[str] # Step-by-step logic
+    
+    @classmethod
+    def from_llm_output(cls, scenario_type: str, llm_facts: List[str], 
+                       narrative: str, question: str, answer: str, 
+                       reasoning_steps: List[str]):
+        """
+        Create TaxCase from LLM-generated content.
+        Automatically classifies facts into types.
+        
+        Args:
+            scenario_type: Type of tax scenario
+            llm_facts: Raw facts from LLM
+            narrative: Generated narrative
+            question: The question
+            answer: The answer
+            reasoning_steps: Reasoning steps
+        """
+        # Simple heuristic to classify facts
+        classified_facts = []
+        for fact in llm_facts:
+            fact_type = classify_fact_type(fact)
+            classified_facts.append(TaxFact(content=fact, fact_type=fact_type))
+        
+        return cls(
+            scenario_type=scenario_type,
+            narrative=narrative,
+            facts=classified_facts,
+            question=question,
+            correct_answer=answer,
+            reasoning_steps=reasoning_steps
+        )
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for JSON export."""
@@ -106,3 +165,27 @@ if __name__ == "__main__":
     # Test saving to organized folder
     saved_path = case.save_to_file()
     print(f"\n✓ Case saved to {saved_path}")
+    
+    # Test the conversion utility
+    print(f"\n=== Testing LLM Integration ===")
+    
+    llm_facts = [
+        "John spent $500 on client lunch",
+        "Business meals are 50% deductible under IRC Section 274", 
+        "The expense qualifies for deduction"
+    ]
+    
+    case_from_llm = TaxCase.from_llm_output(
+        scenario_type="business_meal_deduction",
+        llm_facts=llm_facts,
+        narrative="John took a client to lunch to discuss business.",
+        question="How much is deductible?",
+        answer="$250",
+        reasoning_steps=["Meal was for business", "50% deductible", "$500 × 50% = $250"]
+    )
+    
+    print(f"LLM Facts converted to:")
+    for fact in case_from_llm.facts:
+        print(f"  • {fact}")
+    
+    print(f"\n✓ Conversion utility working!")
