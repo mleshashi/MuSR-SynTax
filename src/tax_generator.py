@@ -7,8 +7,8 @@ import json
 from datetime import datetime
 from typing import List, Dict, Any, Optional
 
-from .core import TaxCase, TaxFact, classify_fact_type
-from .llm_client import GroqClient
+from core import TaxCase, TaxFact, classify_fact_type
+from llm_client import GroqClient
 
 
 class TaxGenerator:
