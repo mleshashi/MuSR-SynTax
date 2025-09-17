@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 import json
 import os
-from datetime import datetime
 
 
 def classify_fact_type(fact: str) -> str:
@@ -44,12 +43,6 @@ class TaxFact:
     fact_type: str  # "story", "rule", or "conclusion"
     
     def __str__(self) -> str:
-        """
-        String representation of the tax fact.
-        
-        Returns:
-            Formatted string showing fact type and content in format "[type] content"
-        """
         return f"[{self.fact_type}] {self.content}"
 
 
@@ -69,17 +62,6 @@ class TaxCase:
                        reasoning_steps: List[str]) -> 'TaxCase':
         """
         Create TaxCase from LLM-generated content with automatic fact classification.
-        
-        Args:
-            scenario_type: Type of tax scenario (e.g., "business_meal_deduction")
-            llm_facts: Raw facts from LLM as list of strings
-            narrative: Generated narrative story
-            question: The tax question being asked
-            answer: The correct answer
-            reasoning_steps: List of reasoning steps as strings
-            
-        Returns:
-            Complete TaxCase instance with classified facts
         """
         classified_facts = []
         for fact in llm_facts:
@@ -96,12 +78,7 @@ class TaxCase:
         )
     
     def to_dict(self) -> Dict[str, Any]:
-        """
-        Convert TaxCase to dictionary for JSON export.
-        
-        Returns:
-            Dictionary representation with all case data including facts as dicts
-        """
+        """Convert TaxCase to dictionary for JSON export."""
         return {
             "scenario_type": self.scenario_type,
             "narrative": self.narrative,
@@ -113,10 +90,10 @@ class TaxCase:
     
     def save_to_file(self, filepath: Optional[str] = None) -> str:
         """
-        Save case to JSON file in organized folder structure.
+        Save case to JSON file with clean naming (no timestamps).
         
         Args:
-            filepath: Optional custom filepath. If None, generates organized path with timestamp
+            filepath: Optional custom filepath. If None, uses clean organized path
             
         Returns:
             The filepath where the case was saved
@@ -127,9 +104,8 @@ class TaxCase:
             scenario_dir = os.path.join(base_dir, self.scenario_type)
             os.makedirs(scenario_dir, exist_ok=True)
             
-            # Generate filename with timestamp
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"{self.scenario_type}_{timestamp}.json"
+            # Simple filename without timestamp
+            filename = f"{self.scenario_type}.json"
             filepath = os.path.join(scenario_dir, filename)
         
         with open(filepath, 'w') as f:
@@ -138,12 +114,7 @@ class TaxCase:
         return filepath
     
     def display(self) -> None:
-        """
-        Display the case in a readable format to console.
-        
-        Returns:
-            None - prints formatted case information to console
-        """
+        """Display the case in a readable format to console."""
         print(f"\n=== {self.scenario_type.replace('_', ' ').title()} Case ===")
         print(f"\nNarrative:\n{self.narrative}")
         
@@ -157,63 +128,3 @@ class TaxCase:
         print(f"\nReasoning:")
         for i, step in enumerate(self.reasoning_steps, 1):
             print(f"  {i}. {step}")
-
-
-# Example usage for testing
-if __name__ == "__main__":
-    # Example 1: Manual creation
-    facts = [
-        TaxFact("John spent $500 on client lunch", "story"),
-        TaxFact("Business meals are 50% deductible if ordinary and necessary", "rule"),
-        TaxFact("Client meetings are ordinary business practice", "rule"),
-        TaxFact("The expense qualifies for deduction", "conclusion")
-    ]
-    
-    case = TaxCase(
-        scenario_type="business_meal_deduction",
-        narrative="John is a sales manager who took a potential client to lunch to discuss a new contract. He paid $500 for the meal at a business restaurant.",
-        facts=facts,
-        question="How much of John's meal expense is deductible?",
-        correct_answer="$250 (50% of $500)",
-        reasoning_steps=[
-            "The meal was with a client for business purposes",
-            "Business meals are ordinary and necessary for sales work", 
-            "Under IRC Section 274, business meals are 50% deductible",
-            "Therefore: $500 × 50% = $250 deductible"
-        ]
-    )
-    
-    case.display()
-    saved_path = case.save_to_file()
-    print(f"\n✓ Case saved to {saved_path}")
-    
-    # Example 2: From LLM output (demonstrates conversion)
-    print(f"\n=== Testing LLM Integration ===")
-    
-    llm_facts = [
-        "Sarah works from home as a freelance graphic designer",
-        "Home office deduction requires exclusive business use",
-        "The home office space is 200 sq ft of a 2000 sq ft home",
-        "Business percentage is 10% of total home expenses",
-        "Sarah can deduct 10% of qualifying home expenses"
-    ]
-    
-    case_from_llm = TaxCase.from_llm_output(
-        scenario_type="home_office_deduction",
-        llm_facts=llm_facts,
-        narrative="Sarah is a freelance graphic designer who uses a dedicated room in her home exclusively for business. She wants to claim the home office deduction.",
-        question="What percentage of home expenses can Sarah deduct?",
-        answer="10% (200 sq ft ÷ 2000 sq ft)",
-        reasoning_steps=[
-            "Home office is used exclusively for business",
-            "Office space is 200 sq ft of 2000 sq ft total",
-            "Business percentage = 200 ÷ 2000 = 10%",
-            "Therefore, 10% of qualifying expenses are deductible"
-        ]
-    )
-    
-    case_from_llm.display()
-    saved_path2 = case_from_llm.save_to_file()
-    print(f"\n✓ Second case saved to {saved_path2}")
-    
-    print(f"\n✓ Core module ready for case study!")
