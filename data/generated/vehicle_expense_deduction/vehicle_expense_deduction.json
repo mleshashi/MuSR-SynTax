@@ -1,34 +1,34 @@
 {
   "scenario_type": "vehicle_expense_deduction",
-  "narrative": "As the financial year drew to a close, Emily began to tally up the expenses for her company's vehicle. The vehicle had been in use for 12 months, and the odometer reading at the start of the year was 12,000 miles. By the end of the year, the vehicle had traveled a total of 20,000 miles. Emily knew that she could use the standard mileage rate to calculate the vehicle expense deduction, rather than tracking actual expenses for gas, maintenance, and repairs.\n\nTo calculate the deduction, Emily first determined the business use percentage of the vehicle, which was 40%. This meant that the vehicle was driven for business purposes 40% of the time, and personal use was 60%. Next, she looked up the standard mileage rate for the year, which was 65.5 cents per mile. Multiplying the total miles driven (20,000) by the business use percentage (0.4) gave her the miles driven for business purposes (8,000). Finally, she calculated the business use deduction by multiplying the business miles (8,000) by the standard mileage rate (65.5 cents per mile), which resulted in a deduction of $5,240.\n\nEmily was confident that she had accurately calculated the vehicle expense deduction. She would submit this amount to the accounting department, who would review and ensure that all expenses were properly recorded. The vehicle expense deduction would be an important part of the company's overall tax strategy, and Emily was relieved to have this calculation behind her.",
+  "narrative": "As the owner of a small consulting firm, I've come to rely on my trusty sedan for getting me from one client meeting to the next. With a typical annual mileage of around 22,500 miles, I've found that my vehicle has become an essential tool in my line of work. According to the records, I've driven a total of 24,117 miles in the past year, with approximately 14,500 of those miles being business-related. This includes commutes to client sites, travel to industry conferences, and even occasional errands related to my business.\n\nTo accurately report my business expenses, I've been tracking my mileage using a dedicated logbook. This has allowed me to keep a detailed record of each business trip, including the date, destination, and the number of miles driven. By using the standard mileage rate of 65.5 cents per mile, I can calculate my total business mileage deduction. This year, my deduction would be 14,500 miles x 65.5 cents per mile, which equals $943,250. This can then be claimed on my tax return as a business expense, helping to offset my operating costs and reducing my taxable income.\n\nAs I prepare my tax return, I'm grateful for the flexibility that comes with being self-employed. By deducting my business vehicle expenses, I can significantly lower my tax liability and reinvest those savings back into my business. Of course, it's essential to keep accurate records and follow the IRS guidelines for business mileage deductions, but with the right tools and documentation, it's a straightforward process that can have a substantial impact on my bottom line.",
   "facts": [
     {
-      "content": "The company's vehicle was driven 20000 miles in the past year.",
+      "content": "Total miles driven in a year is typically between 10,000 and 30,000 miles for business vehicles.",
       "type": "story"
     },
     {
-      "content": "The business use percentage for the vehicle is 40%.",
+      "content": "Business miles driven annually is usually between 3,000 and 20,000 miles for businesses with a vehicle.",
+      "type": "story"
+    },
+    {
+      "content": "The standard mileage rate for business use of a car in 2023 is 65.5 cents per mile.",
+      "type": "story"
+    },
+    {
+      "content": "Actual expenses for a business vehicle can vary widely but may range from $3,000 to $8,000 per year depending on factors like fuel, maintenance, and insurance.",
+      "type": "story"
+    },
+    {
+      "content": "The vehicle's business use percentage is calculated by dividing business miles driven by total miles driven.",
       "type": "rule"
-    },
-    {
-      "content": "The standard mileage rate for 2023 is 65.5 cents per mile.",
-      "type": "story"
-    },
-    {
-      "content": "Actual vehicle expenses include $4000 in gas and $2000 in maintenance.",
-      "type": "story"
-    },
-    {
-      "content": "The vehicle's purchase price was $18000.",
-      "type": "story"
     }
   ],
   "question": "What vehicle expenses are deductible?",
-  "correct_answer": "$5,240 (standard mileage rate) + $0 (actual expenses, as the business use percentage is 40%, but only 40% of $4000 in gas is $1600 and 40% of $2000 in maintenance",
+  "correct_answer": "$943.25",
   "reasoning_steps": [
-    "Calculate the total business miles driven by multiplying the total miles by the business use percentage: 20,000 miles * 0.4 = 8,000 miles.",
-    "Determine the standard mileage deduction by multiplying the business miles by the standard mileage rate: 8,000 miles * $0.655 per mile = $5,240.",
-    "Calculate the actual business expenses by multiplying the actual vehicle expenses by the business use percentage: ($4,000 in gas * 0.4) + ($2,000 in maintenance * 0.4) = $1,600 + $800 = $2,400.",
-    "Determine the total deductible vehicle expenses by selecting the lower of the standard mileage deduction and the actual business expenses, which is $2,400 in this case."
+    "Business miles driven is assumed to be 10,000 miles for calculation purposes.",
+    "Total miles driven is assumed to be 20,000 miles for calculation purposes.",
+    "The business use percentage of the vehicle is 10,000 miles / 20,000 miles, which equals 0.5 or 50%.",
+    "The deductible vehicle expense is 50% of the annual actual expenses, which is $5,000."
   ]
 }
