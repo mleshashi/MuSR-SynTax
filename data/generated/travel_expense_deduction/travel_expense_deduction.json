@@ -1,34 +1,34 @@
 {
   "scenario_type": "travel_expense_deduction",
-  "narrative": "As I settled into my hotel room in downtown Chicago, I couldn't help but feel a mix of excitement and exhaustion. I had spent the past five days traveling from my tax home to meet with key clients for our company's upcoming project. The meetings had been productive, and I was confident that we were on track to secure the contract. However, the constant travel had taken its toll, and I was grateful to have a quiet evening to myself to unwind.\n\nDuring my stay, I had booked a hotel room at $120 per night for four nights, which added up to a total of $480. As I reflected on the trip, I realized that the hotel expense was a necessary one, and I was eligible to deduct it as a business expense on my tax return. According to our company's travel policy, hotel costs are deductible when the primary purpose of the trip is business-related, which was certainly the case here.\n\nI made a mental note to keep the hotel receipt and expense report, as I would need to claim the deduction on our company's expense report and also on my personal tax return. As I drifted off to sleep, I felt a sense of satisfaction knowing that I had made the most of my trip and was able to deduct the legitimate business expenses, including the hotel costs, come tax time.",
+  "narrative": "John had been preparing for the annual marketing conference for weeks, pouring over his notes and presentations in anticipation of the keynotes and networking opportunities. As the Vice President of Sales at a growing tech firm, he knew that this event was crucial for expanding their client base and staying ahead of the competition. With a packed schedule of meetings and presentations, John was confident that this trip would be a valuable investment for the company.\n\nAs he boarded the plane for the four-day trip, John felt a mix of excitement and anticipation. He was looking forward to catching up with long-time clients, as well as meeting new ones, and was eager to share the company's latest innovations with the industry. The conference itself was being held in a bustling metropolis, and John was excited to explore the city whenever he had some free time. With a focus on making meaningful connections and driving business growth, John was ready to make the most of his time away from the office.\n\nUpon his return, John carefully reviewed his expenses to ensure that he was properly reimbursed for the costs associated with his trip. He submitted a claim for $800, the total cost of his airfare, which he had carefully documented and accounted for. As he waited for his employer to process the reimbursement, John took comfort in knowing that this trip had been a success, and that the relationships he had built and the business opportunities he had explored would pay dividends for months to come.",
   "facts": [
     {
-      "content": "John spent 5 days away from his tax home on business.",
+      "content": "John spent 4 days on a business trip away from his tax home",
       "type": "story"
     },
     {
-      "content": "The primary purpose of the trip was to meet with clients.",
+      "content": "The primary purpose of the trip was to attend a conference and meet clients",
       "type": "story"
     },
     {
-      "content": "John booked a hotel room at $120 per night for 4 nights.",
+      "content": "The total airfare cost for the trip was $800",
       "type": "story"
     },
     {
-      "content": "The total airfare cost was $450 for a round trip.",
+      "content": "Hotel costs averaged $120 per night for 5 nights",
       "type": "story"
     },
     {
-      "content": "John spent $80 on meals per day for 3 days of personal travel.",
-      "type": "story"
+      "content": "Meals during the trip cost $50 per day, and the company paid 50% of those expenses",
+      "type": "rule"
     }
   ],
   "question": "Which travel expenses are deductible?",
-  "correct_answer": "$480 (hotel expense) \n$450 (airfare) \n$80 * 1 (business meal) = $80",
+  "correct_answer": "$800 (airfare) + $600 (hotel costs, 4 nights * $120/night) + $400 (meal costs, 8 days * $50/day, but 50% is paid by company, so 50%",
   "reasoning_steps": [
-    "The primary purpose of the trip was business, as evidenced by the fact that John spent 5 days away from his tax home on business and the primary purpose of the trip was to meet with clients. This indicates that the majority of the expenses are deductible.",
-    "The total hotel expense for the 4 nights at $120 per night is $480, which can be deducted as a business expense since the primary purpose of the trip was business.",
-    "The total airfare cost of $450 for a round trip is a necessary expense for the business trip and can be deducted as a business expense.",
-    "John spent $80 on meals per day for 3 days of personal travel, but only 1 day of this was business-related. Therefore, only 1 day of the $80 per day can be deducted as a business expense, which is $80."
+    "The expenses John incurred on the business trip are deductible if they meet the requirements of business-related travel under the tax code.",
+    "John's primary purpose for the trip was to attend a conference and meet clients, which aligns with business-related travel.",
+    "To determine the deductible expenses, calculate the total business-related expenses incurred during the trip and then apply the applicable tax rules.",
+    "To calculate the total deductible travel expenses, start with the airfare, then add the hotel costs for the nights spent away from the tax home, and finally calculate the business meal costs and apply the 50% reimbursement rule for meals paid by the company."
   ]
 }
