@@ -1,34 +1,34 @@
 {
   "scenario_type": "business_meal_deduction",
-  "narrative": "It was a busy week at Smith & Co., and our team was eager to dive into the latest project strategies. Our marketing team had suggested a working dinner to discuss the details, and our CEO agreed it was a great idea. We chose a restaurant with a private room that could accommodate our team of eight, and the bill came out to be $250. As a company, we're used to deducting business meals, but we always make sure to follow the IRS guidelines carefully.\n\nOur accountant, Sarah, reviewed the receipt and calculated the deduction. According to the IRS, business meals at a client's hotel suite qualify for the 50% deduction if they're ordinary and necessary for a sales meeting. However, since our working dinner was not at a client's hotel suite, we couldn't take the full deduction. But we could still claim a portion of the expense. Sarah explained to our team that under IRC Section 274, we could deduct 50% of the $250 expense, which came out to be $125. This way, we could write off half of the cost, allowing us to focus on the project at hand.\n\nThe working dinner was a huge success, and our team came up with some innovative ideas to move the project forward. We were able to take a break from the office and bond over some great food and conversation. It was a well-spent $125, and we're looking forward to seeing the project's progress in the coming weeks. As we move forward, we'll continue to keep track of our business meals and expenses, making sure to follow the IRS guidelines to ensure we're taking advantage of the deductions we're eligible for.",
+  "narrative": "As we wrapped up the quarterly sales projections, our team leader, Rachel, suggested we treat ourselves to a celebratory dinner to discuss the numbers and strategies with our valued clients. We decided on a mid-range restaurant in the city, known for its upscale atmosphere and delectable cuisine. The evening was a crucial opportunity to strengthen our relationships and showcase our company's capabilities to potential new partners.\n\nThe dinner meeting was a resounding success, with lively discussions and thoughtful insights shared among our team and clients. We spent several hours enjoying each other's company, exploring the intricacies of our industry, and refining our approach for the upcoming quarter. As we reviewed our financials and mapped out our goals, the company's growth and stability were the top priorities. The dinner meeting was instrumental in fostering a sense of camaraderie and collaboration, which would undoubtedly translate into increased productivity and success for our organization.\n\nThe total bill for the evening came to $350, which we deemed a reasonable expense considering the number of attendees and the upscale quality of the restaurant. As an ordinary and necessary expense for a sales presentation, the dinner meeting qualified as a legitimate business expense. By treating our clients and team members to a memorable and engaging experience, we strengthened our professional relationships and laid the groundwork for future collaborations and growth opportunities.",
   "facts": [
     {
-      "content": "The company spent $250 on a working dinner for 8 employees at a restaurant to discuss new project strategies.",
+      "content": "The company spent $350 on a business dinner at a restaurant for 8 employees and clients.",
       "type": "story"
     },
     {
-      "content": "Business meals at a client's hotel suite qualify for the 50% deduction if ordinary and necessary for a sales meeting.",
-      "type": "rule"
+      "content": "The business dinner qualifies as an ordinary and necessary expense for a sales presentation.",
+      "type": "conclusion"
     },
     {
-      "content": "Sarah deducted 50% of her $75 expense for a client meeting at a restaurant due to IRC Section 274.",
-      "type": "rule"
+      "content": "The dinner meeting took place at a mid-range restaurant in the city.",
+      "type": "story"
     },
     {
-      "content": "For corporate tax purposes, client meetings are ordinary business practice and qualify for meal deductions under IRC Section 274.",
-      "type": "rule"
+      "content": "The ratio of clients to employees was 2:6.",
+      "type": "story"
     },
     {
-      "content": "The company spent $120 on a business lunch for 4 clients at a conference venue and can deduct 50% of the cost.",
+      "content": "The company is allowed to deduct 50% of the business dinner expense under IRC Section 274.",
       "type": "rule"
     }
   ],
   "question": "How much of the meal expense is deductible?",
-  "correct_answer": "$125",
+  "correct_answer": "$175.",
   "reasoning_steps": [
-    "The company spent $250 on a working dinner for 8 employees at a restaurant to discuss new project strategies, which is an ordinary and necessary business expense for corporate tax purposes.",
-    "The company can deduct 50% of the meal expense under IRC Section 274, as business meals for employees are considered ordinary and necessary for business purposes.",
-    "The amount deductible for the working dinner is calculated as 50% of $250, which is $125.",
-    "This $125 deduction does not change due to the fact that the working dinner was for employees rather than clients, as both cases qualify for meal deductions under IRC Section 274."
+    "The business dinner expense is an ordinary and necessary expense for a sales presentation, qualifying it for a deduction.",
+    "The total business dinner expense is $350, which can be deducted at a rate of 50% under IRC Section 274.",
+    "The ratio of clients to employees, and the fact that the dinner qualified as an ordinary and necessary expense, does not affect the total amount that can be deducted, but rather the type of expense allowed.",
+    "% of $350 is $175."
   ]
 }
