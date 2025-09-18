@@ -1,34 +1,34 @@
 {
   "scenario_type": "business_meal_deduction",
-  "narrative": "It was a typical Wednesday evening when our team of eight gathered at a local restaurant for an office meeting. Our sales conference had been a huge success, and we were all celebrating with a well-deserved dinner. The company had booked a private room at the upscale eatery, and we spent the evening discussing our quarterly goals and brainstorming strategies for the upcoming months. Over plates of steaming pasta and glasses of fine wine, we delved into the details of our sales performance and identified areas for improvement. The relaxed atmosphere and good food helped to foster a sense of camaraderie and teamwork, and by the end of the evening, we were all feeling revitalized and ready to tackle our challenges head-on.\n\nAs we tallied up the expenses from the evening, I noted that the company had spent a total of $125 on dinner for the team. While this may seem like a significant amount, I knew that the meal was a necessary expense in order to facilitate our team-building and planning efforts. After all, a successful business is built on strong relationships and effective communication, and our dinner gathering had been an essential part of our sales conference. I made a mental note to include the cost of the meal in our company's expense report, knowing that it would be eligible for a tax deduction as a business meal expense.\n\nAs I reflected on the evening's events, I was reminded of the importance of keeping our business meals focused on legitimate business purposes. While a dinner meeting can be a great way to build relationships and establish trust with clients, it's essential to ensure that the primary purpose of the meal is business-related rather than purely social. In our case, the dinner had been a natural extension of our sales conference, and I was confident that our company would be able to claim the cost as a deductible business expense.",
+  "narrative": "As the marketing team's lead, I was tasked with planning a company retreat to discuss our quarterly goals and objectives. The event was a crucial part of our ordinary business practice, providing an opportunity for team members to collaborate, build relationships, and align with company vision. We decided to hold the retreat at a local hotel, which offered a convenient and comfortable setting for our discussions. On the final evening, we hosted a dinner for the entire team, which included a mix of company employees and key clients who had joined us for presentations and meetings.\n\nThe dinner, which cost approximately $300, was a necessary expense as it allowed us to foster relationships with our clients in a relaxed setting. These client meetings were a vital part of our marketing strategy, providing us with opportunities to showcase our products and services, gather feedback, and develop new business leads. The casual atmosphere of the dinner helped to break the ice and facilitated open discussions, making it easier for us to build trust and establish strong working relationships with our clients. By investing in our clients and team members, we were able to drive business growth and achieve our company's goals.\n\nIn terms of tax implications, the $300 dinner expense would be considered a legitimate business deduction. As the event was an ordinary business practice and the dinner was directly related to client meetings and team building, we could claim the full amount as a business expense on our tax return. This would help to reduce our taxable income and minimize our tax liability, allowing us to reinvest the savings in other areas of the business.",
   "facts": [
     {
-      "content": "The company spent $125 on dinner for 8 employees at an office meeting",
+      "content": "Sarah spent $300 on a company retreat dinner at a hotel,",
       "type": "story"
     },
     {
-      "content": "Business meals are only deductible if they are for legitimate business purposes",
-      "type": "rule"
-    },
-    {
-      "content": "A sales conference at a hotel is an ordinary and necessary business expense",
+      "content": "The company retreat is considered an ordinary business practice,",
       "type": "story"
     },
     {
-      "content": "The company spent $300 on lunch for 4 clients at a restaurant",
+      "content": "Client meetings are a necessary business expense for marketing,",
       "type": "story"
     },
     {
-      "content": "Client meetings at a conference hotel qualify as ordinary business practice for marketing",
+      "content": "Six employees and two clients attended the dinner at the office,",
+      "type": "story"
+    },
+    {
+      "content": "The client-to-employee ratio was 1:3 during the meeting,",
       "type": "story"
     }
   ],
   "question": "How much of the meal expense is deductible?",
-  "correct_answer": "$100 \n\n($125 * (1-0.2)) = $100 \n\n(assuming a 20% nondeductible food and beverage expense under current rules)",
+  "correct_answer": "$225",
   "reasoning_steps": [
-    "The $125 spent on dinner for 8 employees at an office meeting may not be entirely deductible as it doesn't directly relate to a business purpose like a sales conference or client meeting.",
-    "Since the company spent $300 on lunch for 4 clients at a restaurant, which qualifies as ordinary business practice for marketing, this amount is likely to be deductible.",
-    "However, current rules allow for a 20% nondeductible food and beverage expense, which applies to all meal expenses, including the $300 spent on clients.",
-    "To find the deductible amount, subtract 20% of the total meal expenses from the total meal expenses, resulting in $100 being deductible."
+    "The total cost of the meal is only deductible for the portion related to the business purpose, which is the client meetings, since the employee portion is considered personal entertainment.",
+    "The client-to-employee ratio is 1:3, meaning that for each client, there are three employees, indicating that the client meetings are the primary purpose of the event.",
+    "Since there are two clients and six employees, the client portion of the event is 2/8 (clients:total attendees) or 1/4 of the total meal expense.",
+    "Therefore, 1/4 of the total meal expense of $300 is deductible."
   ]
 }
