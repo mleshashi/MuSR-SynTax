@@ -21,11 +21,9 @@ class TaxGenerator:
         self.llm_client = GroqClient(api_key=api_key)
         self.domain_manager = TaxDomainManager()
         self.generated_scenarios = set()
-        
-        # Get all question/answer mappings dynamically from templates
-        self.question_templates = self.domain_manager.get_domain_questions_answers()
-        
-        print(f"✓ Dynamic generator initialized with {len(self.question_templates)} domains from templates")
+        # Get all primary questions dynamically from templates
+        self.domain_questions = self.domain_manager.get_domain_questions()
+        print(f"✓ Dynamic generator initialized with {len(self.domain_questions)} domains from templates")
     
     def generate_case(self, scenario_type: str, context: str = "") -> TaxCase:
         """
@@ -37,10 +35,16 @@ class TaxGenerator:
             available_domains = list(self.domain_manager.get_all_domains().keys())
             raise ValueError(f"Domain '{scenario_type}' not found in templates. Available: {available_domains}")
         
-        # Check if already generated
-        if scenario_type in self.generated_scenarios:
+        # Check if already generated (in memory or on disk)
+        case_file_path = f"data/generated/{scenario_type}/{scenario_type}.json"
+        if scenario_type in self.generated_scenarios or os.path.exists(case_file_path):
             print(f"Case for {scenario_type} already exists, skipping duplicate generation")
-            return self._load_existing_case(scenario_type)
+            loaded_case = self._load_existing_case(scenario_type)
+            if loaded_case is not None:
+                self.generated_scenarios.add(scenario_type)
+                return loaded_case
+            else:
+                print(f"Warning: Expected case file for {scenario_type} but could not load. Regenerating...")
         
         print(f"Generating {scenario_type} case using dynamic templates...")
         
@@ -51,20 +55,23 @@ class TaxGenerator:
         raw_facts = self.llm_client.generate_tax_facts(scenario_type, domain_context + "\n" + context)
         raw_narrative = self.llm_client.generate_tax_narrative(scenario_type, raw_facts[:3])
         
-        # Get question and answer dynamically from templates
-        question, answer = self._get_dynamic_question_answer(scenario_type)
-        
+        # Get question dynamically from templates
+        question = self._get_dynamic_question(scenario_type)
+
+        # Generate answer dynamically using LLM based on facts, narrative, and question
+        answer = self.llm_client.generate_dynamic_answer(scenario_type, raw_facts, raw_narrative, question)
+
         # Generate reasoning steps using template context
         reasoning_steps = self.llm_client.generate_reasoning_steps(
             scenario_type, raw_facts, question, answer
         )
-        
+
         # Create structured case
         structured_facts = []
         for fact_text in raw_facts:
             fact_type = classify_fact_type(fact_text)
             structured_facts.append(TaxFact(content=fact_text, fact_type=fact_type))
-        
+
         case = TaxCase(
             scenario_type=scenario_type,
             narrative=raw_narrative,
@@ -73,24 +80,23 @@ class TaxGenerator:
             correct_answer=answer,
             reasoning_steps=reasoning_steps
         )
-        
+
         # Save case
         case_path = case.save_to_file()
         self.generated_scenarios.add(scenario_type)
-        
+
         print(f"✓ Case generated using dynamic template and saved to {case_path}")
         return case
     
-    def _get_dynamic_question_answer(self, scenario_type: str) -> tuple[str, str]:
+    def _get_dynamic_question(self, scenario_type: str) -> str:
         """
-        Get question and answer dynamically from loaded templates.
-        No hardcoded mappings!
+        Get question dynamically from loaded templates.
         """
-        if scenario_type in self.question_templates:
-            return self.question_templates[scenario_type]
+        if scenario_type in self.domain_questions:
+            return self.domain_questions[scenario_type]
         else:
             # Fallback - should not happen if domain exists in templates
-            return ("What is the tax treatment?", "Apply relevant tax rules")
+            return "What is the tax treatment?"
     
     def _load_existing_case(self, scenario_type: str) -> Optional[TaxCase]:
         """Load existing case if it exists."""
