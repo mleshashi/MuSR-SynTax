@@ -1,34 +1,34 @@
 {
   "scenario_type": "home_office_deduction",
-  "narrative": "As the year drew to a close, Emily found herself reflecting on the expenses associated with running her successful freelance writing business from home. With a dedicated office space of 250 square feet within her 2000 square-foot house, she had been able to maintain a clear boundary between her work and personal life. The home office was not only a productive space but also a requirement for her business to operate efficiently. Emily took pride in the fact that she could utilize her skills and expertise to support her clients, all while working in the comfort of her own home.\n\nTo determine the tax-deductible expenses for her home office, Emily decided to calculate the allocation of her annual home expenses. She started by reviewing her total annual expenses, which came out to be $18000. Since her home office space comprised 12.5% of the total living area, she calculated the business use percentage as 12.5%. This meant that she could deduct 12.5% of the total home expenses as business expenses. By multiplying her total annual expenses by the business use percentage, Emily arrived at the deductible amount for her home office expenses.\n\nEmily carefully tallied the amounts, making sure to document every expense, from property taxes and insurance premiums to maintenance and utility costs. With her home office expenses calculated, she felt confident that she could accurately claim her deductions on her tax return. As a self-employed individual, it was essential for Emily to keep accurate records and stay organized to ensure she was taking advantage of all the tax benefits available to her. By being diligent in her record-keeping and tax calculations, Emily was able to maximize her deductions and minimize her tax liability.",
+  "narrative": "As I sat at my desk, sipping my morning coffee and staring out the window of my home office, I couldn't help but think about the various expenses that came with running my own business from home. With a total square footage of 2500 sq ft, our family's house was spacious enough to accommodate a dedicated workspace for me. This 200 sq ft home office had become my sanctuary, where I spent countless hours juggling work calls, responding to emails, and brainstorming new ideas for my company.\n\nGiven the fact that I spent a significant amount of time working from home, I knew that I was eligible for a home office deduction on my taxes. But before I could claim it, I had to calculate the percentage of my home that was dedicated to my business. With my home office taking up about 8% of the total square footage, I was confident that I could substantiate my claim. To do so, I had to gather all the necessary expenses, including mortgage payments, property taxes, insurance, maintenance costs, and utilities. Fortunately, our annual home expenses totaled $18,000, which made it easier to itemize the costs and determine the business percentage.\n\nNow that I had all the necessary information, I was ready to crunch the numbers. By applying the home office deduction percentage to our total home expenses, I estimated that I could claim a significant portion of the costs as business expenses. This would not only reduce my taxable income but also help offset some of the expenses associated with running my business from home. With a solid understanding of the tax implications, I felt more confident and prepared to tackle the tax season ahead.",
   "facts": [
     {
-      "content": "The home office is 250 square feet of the total 2000 square feet home.",
+      "content": "The home office is 200 sq ft.",
       "type": "story"
     },
     {
-      "content": "The home office is used exclusively for business.",
+      "content": "The total square footage of the home is 2500 sq ft.",
       "type": "story"
     },
     {
-      "content": "Total annual home expenses were $18000.",
+      "content": "Annual home expenses total $18000.",
       "type": "story"
     },
     {
-      "content": "The home office was used for 8 months.",
+      "content": "The home office is exclusively used for business 9 months of the year.",
       "type": "story"
     },
     {
-      "content": "The Simplified method of $5 per square foot applies because the home office is less than 300 square feet.",
+      "content": "The simplified method is allowed for home office expenses.",
       "type": "story"
     }
   ],
   "question": "What percentage of home expenses can be deducted?",
-  "correct_answer": "12.5%",
+  "correct_answer": "8%",
   "reasoning_steps": [
-    "The home office space is 250 square feet.",
-    "The Simplified method applies since the home office is less than 300 square feet, requiring a $5 per square foot calculation.",
-    "The annual home office deduction using the Simplified method is 250 square feet * $5 per square foot = $1250.",
-    "The home office was used for 8 months, so the annual deduction should be prorated to 8/12 of the total annual deduction, which is ($1250 * 8) / 12 = $833.33."
+    "The home office is 200 sq ft, and the total square footage of the home is 2500 sq ft.",
+    "Calculate the percentage of the home used for business by dividing the home office square footage by the total square footage of the home.",
+    "The business use percentage is then multiplied by the annual home expenses.",
+    "Since the home office is exclusively used for business 9 months of the year, the actual business use period needs to be accounted for in the calculation by multiplying the business use percentage by the annual home expenses and then dividing by 12."
   ]
 }
