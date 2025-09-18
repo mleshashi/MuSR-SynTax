@@ -38,12 +38,12 @@ class TaxDomainManager:
         """Create the default JSON template with all 5 domains."""
         os.makedirs(os.path.dirname(self.template_file), exist_ok=True)
         
-        # Complete template with all domain information
+        # Updated template to match the latest tax_domains.json
         default_template = {
             "metadata": {
-                "description": "Tax domain templates for MuSR-SynTax case generation",
-                "note": "All domains are defined here. Add new domains by adding to this JSON file.",
-                "version": "1.0"
+                "description": "Tax domain templates for MuSR-SynTax case generation with concrete amounts",
+                "note": "All domains include specific numerical facts for better reasoning quality",
+                "version": "2.0"
             },
             "domains": {
                 "business_meal_deduction": {
@@ -55,16 +55,17 @@ class TaxDomainManager:
                         "Is this meal expense qualifying for deduction?"
                     ],
                     "reasoning_pattern": [
-                        "Identify the expense amount and business purpose",
+                        "Identify the specific expense amount and business purpose",
                         "Verify the meal meets 'ordinary and necessary' criteria",
                         "Apply IRC Section 274 deduction percentage (50%)",
-                        "Calculate the deductible amount"
+                        "Calculate the exact deductible amount in dollars"
                     ],
                     "required_facts": [
-                        "expense_amount",
-                        "business_purpose", 
-                        "participants_present",
-                        "meal_type_and_location"
+                        "meal_expense_amount ($50-$500 range)",
+                        "number_of_attendees (2-12 people)",
+                        "business_purpose_description",
+                        "meeting_location_type (restaurant, office, hotel)",
+                        "client_vs_employee_ratio"
                     ],
                     "tax_rules": [
                         "IRC Section 274 - Entertainment expenses",
@@ -72,88 +73,87 @@ class TaxDomainManager:
                         "Ordinary and necessary business expense test"
                     ]
                 },
-                
                 "home_office_deduction": {
                     "domain_name": "home_office_deduction",
                     "description": "Home office expenses for business use of home under IRC Section 280A",
                     "typical_questions": [
                         "What percentage of home expenses can be deducted?",
-                        "Is the home office deduction allowed?",
-                        "How much can be claimed for home office expenses?"
+                        "What is the dollar amount of the home office deduction?"
                     ],
                     "reasoning_pattern": [
-                        "Verify exclusive business use of space",
-                        "Calculate business percentage of home",
-                        "Identify qualifying home expenses",
-                        "Apply business percentage to expenses"
+                        "Verify exclusive business use of designated space",
+                        "Calculate business percentage: office sq ft \u00f7 total home sq ft",
+                        "Identify total qualifying home expenses for the year",
+                        "Apply business percentage to get deductible amount"
                     ],
                     "required_facts": [
-                        "office_square_footage",
-                        "total_home_square_footage",
-                        "exclusive_business_use",
-                        "qualifying_expenses"
+                        "home_office_square_footage (100-400 sq ft)",
+                        "total_home_square_footage (1000-3000 sq ft)",
+                        "annual_home_expenses ($12000-$30000)",
+                        "exclusive_business_use_confirmation (yes/no)",
+                        "months_of_business_use (1-12 months)"
                     ],
                     "tax_rules": [
                         "IRC Section 280A - Business use of home",
                         "Exclusive use test",
-                        "Regular use test"
+                        "Regular use test",
+                        "Simplified method: $5 per sq ft up to 300 sq ft"
                     ]
                 },
-                
                 "travel_expense_deduction": {
-                    "domain_name": "travel_expense_deduction", 
+                    "domain_name": "travel_expense_deduction",
                     "description": "Business travel expenses and their deductibility under IRC Section 162",
                     "typical_questions": [
                         "Which travel expenses are deductible?",
-                        "Is this trip primarily for business?",
-                        "How much travel expense can be deducted?"
+                        "What is the total deductible travel amount?"
                     ],
                     "reasoning_pattern": [
-                        "Determine if travel is away from tax home",
-                        "Verify business purpose of travel",
-                        "Identify ordinary and necessary expenses",
-                        "Calculate deductible amounts"
+                        "Determine if travel is away from tax home overnight",
+                        "Verify primary business purpose of the trip",
+                        "Identify ordinary and necessary expense categories",
+                        "Calculate total deductible amount by category"
                     ],
                     "required_facts": [
-                        "travel_destination",
-                        "business_purpose",
-                        "duration_of_trip",
-                        "expense_breakdown"
+                        "trip_duration_days (1-7 days)",
+                        "total_airfare_cost ($200-$1500)",
+                        "hotel_cost_per_night ($80-$300)",
+                        "meals_per_day_cost ($30-$100)",
+                        "business_days_vs_personal_days",
+                        "conference_registration_fee ($0-$800)"
                     ],
                     "tax_rules": [
                         "IRC Section 162 - Business expenses",
-                        "Away from home test",
-                        "Temporary vs. indefinite assignment rules"
+                        "Away from home test (overnight rule)",
+                        "50% limitation on meal expenses during travel"
                     ]
                 },
-                
                 "charitable_donation_deduction": {
                     "domain_name": "charitable_donation_deduction",
-                    "description": "Charitable contribution deductions under IRC Section 170", 
+                    "description": "Charitable contribution deductions under IRC Section 170",
                     "typical_questions": [
                         "How much charitable deduction is allowed?",
-                        "Is this organization qualified for deductions?",
-                        "What are the donation limits?"
+                        "What are the AGI limitations for this donation?"
                     ],
                     "reasoning_pattern": [
-                        "Verify qualified charitable organization",
-                        "Determine contribution amount and type",
-                        "Apply AGI limitation percentages",
-                        "Calculate allowable deduction"
+                        "Verify organization is qualified 501(c)(3) charity",
+                        "Determine contribution type (cash vs property)",
+                        "Calculate AGI limitation (50% for cash, 30% for property)",
+                        "Apply limitation to determine deductible amount"
                     ],
                     "required_facts": [
-                        "organization_status",
-                        "donation_amount",
-                        "donation_type",
-                        "taxpayer_agi"
+                        "donation_amount ($500-$10000)",
+                        "taxpayer_agi ($30000-$150000)",
+                        "donation_type (cash, property, appreciated_stock)",
+                        "charity_qualification_status (501c3, private_foundation)",
+                        "property_fair_market_value ($1000-$5000 if applicable)"
                     ],
                     "tax_rules": [
                         "IRC Section 170 - Charitable contributions",
-                        "50% AGI limitation for cash donations",
-                        "30% AGI limitation for capital gain property"
+                        "50% AGI limitation for cash donations to public charities",
+                        "30% AGI limitation for capital gain property",
+                        "5-year carryforward for excess contributions"
                     ]
                 },
-                
                 "vehicle_expense_deduction": {
                     "domain_name": "vehicle_expense_deduction",
                     "description": "Business vehicle expense deductions under IRC Section 162",
@@ -162,21 +162,24 @@ class TaxDomainManager:
                         "Should I use standard mileage or actual expense method?"
                     ],
                     "reasoning_pattern": [
-                        "Determine business vs. personal use percentage",
-                        "Choose between standard mileage and actual expense method", 
-                        "Calculate allowable business deduction",
-                        "Apply record-keeping requirements"
+                        "Calculate business use percentage from mileage log",
+                        "Compare standard mileage vs actual expense methods",
+                        "Choose method that provides larger deduction",
+                        "Calculate final deductible amount"
                     ],
                     "required_facts": [
-                        "total_miles_driven",
-                        "business_miles", 
-                        "vehicle_expenses",
-                        "method_preference"
+                        "total_miles_driven_year (10000-30000 miles)",
+                        "business_miles_driven (3000-20000 miles)",
+                        "actual_vehicle_expenses ($3000-$8000)",
+                        "standard_mileage_rate_cents (65.5 cents for 2023)",
+                        "vehicle_purchase_price ($15000-$40000)",
+                        "depreciation_method (if actual expense)"
                     ],
                     "tax_rules": [
                         "IRC Section 162 - Business expenses",
-                        "Standard mileage rate (IRS Notice)",
-                        "Actual expense method rules"
+                        "Standard mileage rate (IRS Notice 2023-03)",
+                        "Actual expense method with depreciation limits",
+                        "Business use percentage requirement"
                     ]
                 }
             }
@@ -244,42 +247,14 @@ Relevant tax rules:
 """
         return context
     
-    def get_domain_questions_answers(self) -> Dict[str, tuple[str, str]]:
+    def get_domain_questions(self) -> Dict[str, str]:
         """
-        Get question/answer mappings for all domains dynamically from JSON.
-        
+        Get primary question for all domains dynamically from JSON.
         Returns:
-            Dictionary mapping domain names to (question, answer) tuples
+            Dictionary mapping domain names to primary question string
         """
-        qa_mappings = {}
-        
+        questions = {}
         for domain_name, domain in self.domains.items():
-            # Use first question as primary question
             question = domain.typical_questions[0] if domain.typical_questions else "What is the tax treatment?"
-            
-            # Generate context-appropriate answer based on domain rules from JSON
-            answer = self._generate_domain_answer(domain)
-            
-            qa_mappings[domain_name] = (question, answer)
-        
-        return qa_mappings
-    
-    def _generate_domain_answer(self, domain: TaxDomainTemplate) -> str:
-        """Generate appropriate answer based on domain characteristics from JSON."""
-        domain_name = domain.domain_name
-        
-        # Pattern-based answer generation from domain rules in JSON
-        if "50%" in str(domain.tax_rules) or "274" in str(domain.tax_rules):
-            return "50% of the meal cost (subject to IRC Section 274)"
-        elif "280A" in str(domain.tax_rules) or "home" in domain_name:
-            return "Business use percentage of total home area"
-        elif "162" in str(domain.tax_rules) and "travel" in domain_name:
-            return "Ordinary and necessary business travel costs"
-        elif "170" in str(domain.tax_rules) or "charitable" in domain_name:
-            return "Up to AGI limits under IRC Section 170"
-        elif "vehicle" in domain_name or "mileage" in str(domain.tax_rules):
-            return "Business use percentage of total vehicle costs"
-        else:
-            # Fallback based on first tax rule from JSON
-            first_rule = domain.tax_rules[0] if domain.tax_rules else "relevant tax rules"
-            return f"Apply {first_rule.split(' - ')[0] if ' - ' in first_rule else first_rule}"
+            questions[domain_name] = question
+        return questions
