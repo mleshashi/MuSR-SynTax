@@ -3,7 +3,8 @@ LLM client for Groq API integration.
 Handles communication with Groq models for tax case generation.
 """
 import os
-from typing import Optional, List
+import re
+from typing import Optional, List, Dict, Any
 from groq import Groq
 from dotenv import load_dotenv
 
@@ -12,27 +13,7 @@ load_dotenv()
 
 
 class GroqClient:
-    def generate_dynamic_answer(self, scenario_type: str, facts: list, narrative: str, question: str) -> str:
-        """
-        Generate the answer dynamically using LLM based on the actual case data.
-        The answer should be only the direct, calculated result (number, percentage, or short phrase), with no explanation or reasoning.
-        """
-        system_prompt = (
-            "You are a tax law expert. Given the scenario, calculate the final deductible amount or credit "
-            "based ONLY on the provided facts, required reasoning pattern, and tax rules. "
-            "Do NOT rely on the narrative except to understand context, and do NOT assume any facts that are not explicitly given. "
-            "Always apply all statutory limits and adjustments relevant to the domain (e.g., business use percentage, AGI limitations, Section 179, bonus depreciation, MACRS conventions, meal deduction limitations, R&D credit rules, etc.). "
-            "Follow the reasoning pattern for the domain step by step internally, but output ONLY the final deductible amount or credit as a single number or dollar amount. "
-            "If multiple components contribute to the deduction or credit, combine them into a single total. "
-            "Do NOT include explanations, steps, or any extra text. "
-            "If the deduction or credit is zero, output '0'."
-        )
-
-        facts_text = "\n".join([f"- {fact}" for fact in facts])
-        user_prompt = f"Scenario: {scenario_type}\n\nNarrative:\n{narrative}\n\nFacts:\n{facts_text}\n\nQuestion: {question}\n\nAnswer:"
-        response = self.generate_with_system_prompt(system_prompt, user_prompt, max_tokens=50)
-        return response.strip()
-    """Simple client for Groq API with tax-specific methods."""
+    """Client for Groq API with improved tax case generation methods."""
     
     def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None) -> None:
         """
@@ -41,9 +22,6 @@ class GroqClient:
         Args:
             api_key: Groq API key (if not provided, reads from GROQ_API_KEY env var)
             model: Model to use (if not provided, reads from GROQ_MODEL env var)
-            
-        Returns:
-            None
         """
         self.api_key = api_key or os.getenv("GROQ_API_KEY")
         self.model = model or os.getenv("GROQ_MODEL", "llama3-8b-8192")
@@ -58,12 +36,12 @@ class GroqClient:
         Generate text using Groq API.
         
         Args:
-            prompt: The input prompt to generate text from
-            max_tokens: Maximum number of tokens to generate (default: 1000)
-            temperature: Sampling temperature between 0.0-1.0 (default: 0.7)
+            prompt: The input prompt
+            max_tokens: Maximum tokens to generate
+            temperature: Sampling temperature
             
         Returns:
-            Generated text response from the LLM, or error message if API call fails
+            Generated text or error message
         """
         try:
             response = self.client.chat.completions.create(
@@ -82,13 +60,13 @@ class GroqClient:
         Generate text with system and user prompts.
         
         Args:
-            system_prompt: System instruction that defines the AI's role and behavior
-            user_prompt: User's specific request or question
-            max_tokens: Maximum number of tokens to generate (default: 1000)
-            temperature: Sampling temperature between 0.0-1.0 (default: 0.7)
+            system_prompt: System instruction
+            user_prompt: User request
+            max_tokens: Maximum tokens
+            temperature: Sampling temperature
             
         Returns:
-            Generated text response from the LLM, or error message if API call fails
+            Generated text or error message
         """
         try:
             response = self.client.chat.completions.create(
@@ -104,131 +82,263 @@ class GroqClient:
         except Exception as e:
             return f"Error: {str(e)}"
     
-    def generate_tax_facts(self, scenario_type: str, context: str = "") -> List[str]:
+    def generate_tax_facts_with_answer(self, scenario_type: str, context: str = "") -> Dict[str, Any]:
         """
-        Generate clean tax facts for a specific scenario.
+        Generate tax facts that contain both the setup and embedded answer.
         
-        Args:
-            scenario_type: Type of tax scenario (e.g., "business_meal_deduction")
-            context: Additional context information for generation (default: "")
-            
         Returns:
-            List of exactly 5 cleaned tax facts as strings, fallback facts if generation fails
+            Dictionary with 'facts' list and 'embedded_answer' string
         """
-        system_prompt = """You are a tax law expert. Generate realistic, accurate tax facts.
-        Return ONLY the facts, one per line. No numbering, no explanations, no formatting.
-        Each fact should be 1-2 sentences maximum."""
+        system_prompt = """You are a tax expert creating self-contained tax scenarios.
         
-        user_prompt = f"""Generate exactly 5 tax facts for a {scenario_type} scenario.
-        Context: {context}
+        Generate facts that tell a complete story INCLUDING the answer.
+        The facts should contain:
+        1. Initial situation with specific amounts
+        2. Applicable tax rules or percentages
+        3. The calculated result or deduction amount
         
-        Example format:
-        John spent $500 on client lunch at a business restaurant
-        Business meals are 50% deductible if ordinary and necessary
-        Client meetings are ordinary business practice for sales
-        Under IRC Section 274, business meals have deduction limits
-        The expense qualifies for 50% deduction
+        Output clean facts, one per line. No formatting or numbering."""
         
-        Generate similar facts - clean, concise, no formatting."""
+        user_prompt = f"""Generate 5 tax facts for {scenario_type}.
+        
+        Pattern to follow:
+        - Initial amount or situation (with specific numbers)
+        - Applicable tax rule or percentage
+        - The calculated deduction or result
+        - Supporting context facts
+        
+        Example for business meals:
+        The company spent $400 on a client dinner
+        Business meals are 50% deductible under IRC Section 274
+        The company can deduct $200 for this meal expense
+        The dinner was with potential clients discussing a new contract
+        The expense meets ordinary and necessary business requirements
+        
+        Now generate similar self-contained facts for: {scenario_type}
+        Context: {context}"""
         
         response = self.generate_with_system_prompt(system_prompt, user_prompt, max_tokens=400)
         
-        # Clean and parse response
+        # Parse response
         facts = []
+        embedded_answer = None
+        
         for line in response.split('\n'):
             line = line.strip()
-            # Skip empty lines and common unwanted patterns
-            if line and not line.lower().startswith(('here are', 'tax facts', 'facts for')):
-                # Remove numbering and formatting
-                clean_line = line.lstrip('1234567890.- ').replace('**', '').replace('*', '')
-                # Remove category labels
-                if ':' in clean_line and any(keyword in clean_line.lower() 
-                                           for keyword in ['story fact', 'rule fact', 'conclusion fact']):
-                    clean_line = clean_line.split(':', 1)[1].strip()
-                
-                if clean_line:  # Only add non-empty lines
+            if line and not line.lower().startswith(('here', 'facts:', 'note:')):
+                clean_line = line.lstrip('1234567890.- ').strip()
+                if clean_line:
                     facts.append(clean_line)
+                    
+                    # Try to identify the answer fact
+                    if any(kw in clean_line.lower() for kw in ['can deduct', 'deduction is', 
+                                                                'allowed', 'qualifies for']):
+                        # Extract numerical answer
+                        nums = re.findall(r'\$?([\d,]+(?:\.\d+)?)', clean_line)
+                        if nums and not embedded_answer:
+                            embedded_answer = f"${nums[-1]}"
         
-        return facts[:5]  # Return exactly 5 facts
+        return {
+            "facts": facts[:5],
+            "embedded_answer": embedded_answer
+        }
     
-    def generate_tax_narrative(self, scenario_type: str, facts: List[str]) -> str:
-        """Generate a narrative story from tax facts."""
-        system_prompt = """You are a skilled writer. Create a realistic tax scenario narrative.
-        Write 2-3 paragraphs that naturally incorporate the given facts."""
+    def generate_dynamic_answer(self, scenario_type: str, facts: List[str], 
+                              narrative: str, question: str) -> str:
+        """
+        Generate answer using pattern matching from facts.
+        No domain expertise required - derives from facts themselves.
+        """
+        system_prompt = """You are analyzing tax facts to answer a question.
+        
+        CRITICAL INSTRUCTIONS:
+        1. Look for numerical values in the facts (amounts, percentages, square footage)
+        2. Look for calculation rules IN THE FACTS (e.g., "50% deductible", "$5 per sq ft")
+        3. Apply ONLY the rules found in the facts to the numbers found in the facts
+        4. Output ONLY the calculated result
+        
+        DO NOT use external tax knowledge. Use ONLY what's stated in the facts.
+        
+        Examples:
+        - Facts say "$500 spent" + "50% deductible" → Answer: $250
+        - Facts say "250 sq ft office" + "2000 sq ft home" → Answer: 12.5%
+        - Facts say "$200 can be deducted" → Answer: $200
+        - Facts say "qualifies for $1,500 credit" → Answer: $1,500"""
         
         facts_text = "\n".join([f"- {fact}" for fact in facts])
         
-        user_prompt = f"""Write a realistic narrative for a {scenario_type} that includes these facts:
-
+        user_prompt = f"""Facts provided:
 {facts_text}
 
-Create a professional, clear story that feels natural."""
+Question: {question}
+
+Based ONLY on these facts, what is the answer? 
+If the answer is already stated in the facts, use that.
+If calculation is needed, show only the final result.
+Output only the number/amount/percentage."""
+        
+        response = self.generate_with_system_prompt(system_prompt, user_prompt, max_tokens=50)
+        
+        # Clean the response
+        response = response.strip()
+        # Remove explanatory text if present
+        if ':' in response:
+            response = response.split(':')[-1].strip()
+        
+        return response
+    
+    def generate_tax_narrative(self, scenario_type: str, facts: List[str]) -> str:
+        """Generate a narrative story from tax facts."""
+        system_prompt = """You are a skilled writer creating realistic tax scenarios.
+        Write a coherent narrative that naturally incorporates the given facts.
+        Make it feel like a real situation, not a textbook example."""
+        
+        facts_text = "\n".join([f"- {fact}" for fact in facts])
+        
+        user_prompt = f"""Write a 2-3 paragraph narrative for {scenario_type}.
+        
+        Incorporate these facts naturally:
+{facts_text}
+
+        Make it realistic and professional. Use names and specific details."""
         
         return self.generate_with_system_prompt(system_prompt, user_prompt, max_tokens=600)
     
     def generate_reasoning_steps(self, scenario_type: str, facts: List[str], 
                                question: str, answer: str) -> List[str]:
-        """Generate step-by-step reasoning for a tax case."""
-        system_prompt = """You are a tax expert. Create clear, logical reasoning steps.
-        Return only the steps, one per line, no numbering."""
+        """Generate step-by-step reasoning that connects facts to answer."""
+        system_prompt = """You are a tax expert explaining calculations step-by-step.
+        Create clear reasoning that shows how the facts lead to the answer.
+        Use the actual numbers and rules from the facts.
+        Output only the steps, one per line."""
         
         facts_text = "\n".join([f"- {fact}" for fact in facts])
         
-        user_prompt = f"""Given these facts about {scenario_type}:
-
+        user_prompt = f"""Given these facts:
 {facts_text}
 
 Question: {question}
 Answer: {answer}
 
-Provide 4 clear reasoning steps that connect the facts to this answer."""
+Provide 4 clear steps showing how these specific facts lead to this answer.
+Use the actual numbers from the facts in your reasoning."""
         
         response = self.generate_with_system_prompt(system_prompt, user_prompt, max_tokens=400)
         
         # Parse into clean steps
         steps = []
         for line in response.split('\n'):
-            line = line.strip().lstrip('1234567890.- ')
-            if line and not line.lower().startswith(('steps:', 'reasoning:')):
-                steps.append(line)
+            line = line.strip()
+            if line and not line.lower().startswith(('step', 'reasoning:')):
+                # Remove numbering
+                clean_line = re.sub(r'^[\d\.\-\)]+\s*', '', line)
+                if clean_line:
+                    steps.append(clean_line)
         
-        return steps[:4]  # Return exactly 4 steps
+        return steps[:4]
+    
+    def validate_fact_consistency(self, facts: List[str], answer: str) -> bool:
+        """
+        Check if the answer can be derived from the facts.
+        
+        Args:
+            facts: List of fact strings
+            answer: The answer to validate
+            
+        Returns:
+            True if answer is consistent with facts
+        """
+        # Extract all numbers from facts
+        fact_numbers = []
+        for fact in facts:
+            numbers = re.findall(r'\$?([\d,]+(?:\.\d+)?)', fact)
+            fact_numbers.extend([float(n.replace(',', '')) for n in numbers if n])
+        
+        if not fact_numbers:
+            return True  # Can't validate without numbers
+        
+        # Extract number from answer
+        answer_match = re.search(r'\$?([\d,]+(?:\.\d+)?)', answer)
+        if not answer_match:
+            return True  # Non-numeric answer
+        
+        answer_num = float(answer_match.group(1).replace(',', ''))
+        
+        # Check if answer appears in facts
+        if answer_num in fact_numbers:
+            return True
+        
+        # Check common calculations
+        for num in fact_numbers:
+            # Common deduction percentages
+            for percentage in [0.5, 0.3, 0.6, 1.0]:
+                if abs(num * percentage - answer_num) < 1:
+                    return True
+            
+            # Check division (for percentages)
+            for denom in fact_numbers:
+                if denom > 0:
+                    result = (num / denom) * 100
+                    if abs(result - answer_num) < 0.1:
+                        return True
+        
+        return False
 
 
-# Example usage and testing
-if __name__ == "__main__":
-    try:
-        client = GroqClient()
-        print("Testing Groq client for case study...")
-        
-        # Test 1: Clean facts generation
-        facts = client.generate_tax_facts("business_meal_deduction", "Sales manager client lunch")
-        print(f"\nGenerated facts:")
-        for i, fact in enumerate(facts, 1):
-            print(f"{i}. {fact}")
-        
-        # Test 2: Narrative generation
-        if facts:
-            narrative = client.generate_tax_narrative("business_meal_deduction", facts)
-            print(f"\nGenerated narrative:")
-            print(narrative[:300] + "..." if len(narrative) > 300 else narrative)
-        
-        # Test 3: Reasoning steps
-        if facts:
-            steps = client.generate_reasoning_steps(
-                "business_meal_deduction", 
-                facts, 
-                "How much is deductible?", 
-                "$250 (50% of $500)"
-            )
-            print(f"\nGenerated reasoning steps:")
-            for i, step in enumerate(steps, 1):
-                print(f"{i}. {step}")
-        
-        print("\n✓ Groq client working and ready for case study!")
-        
-    except ValueError as e:
-        print(f"Setup required: {e}")
-        print("Please set GROQ_API_KEY in your .env file")
-    except Exception as e:
-        print(f"Error: {e}")
+# Fallback mock client for testing without API key
+class MockGroqClient:
+    """Mock client for testing without API access."""
+    
+    def __init__(self, *args, **kwargs):
+        print("Using mock client (no API key provided)")
+    
+    def generate_text(self, prompt: str, **kwargs) -> str:
+        return "Mock response for: " + prompt[:50]
+    
+    def generate_with_system_prompt(self, system_prompt: str, user_prompt: str, **kwargs) -> str:
+        return "Mock response"
+    
+    def generate_tax_facts_with_answer(self, scenario_type: str, context: str = "") -> Dict[str, Any]:
+        return {
+            "facts": [
+                f"Company spent $500 on {scenario_type}",
+                "50% of expense is deductible",
+                "Company can deduct $250",
+                "Expense was ordinary and necessary",
+                "Documentation was properly maintained"
+            ],
+            "embedded_answer": "$250"
+        }
+    
+    def generate_dynamic_answer(self, scenario_type: str, facts: List[str], 
+                              narrative: str, question: str) -> str:
+        return "$250"
+    
+    def generate_tax_narrative(self, scenario_type: str, facts: List[str]) -> str:
+        return f"A company engaged in {scenario_type}. " + " ".join(facts[:2])
+    
+    def generate_reasoning_steps(self, scenario_type: str, facts: List[str], 
+                               question: str, answer: str) -> List[str]:
+        return [
+            "Identified the expense amount from facts",
+            "Applied the deduction percentage",
+            "Calculated the final deduction",
+            f"Result is {answer}"
+        ]
+    
+    def validate_fact_consistency(self, facts: List[str], answer: str) -> bool:
+        return True
+
+
+def get_client(api_key: Optional[str] = None) -> Any:
+    """
+    Get appropriate client based on API key availability.
+    
+    Returns:
+        GroqClient if API key available, MockGroqClient otherwise
+    """
+    api_key = api_key or os.getenv("GROQ_API_KEY")
+    if api_key:
+        return GroqClient(api_key)
+    else:
+        return MockGroqClient()
