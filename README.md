@@ -49,4 +49,4 @@ See `CONTRIBUTING.md` for guidelines on adding domains, LLMs, or evaluation logi
 MIT License
 
 ---
-For more details, see the MuSR paper and the code comments/docstrings throughout the repository.
+For more details, see the MuSR paper and the code [comments/docstrings](https://github.com/Zayne-sprague/MuSR.git) throughout the repository.
