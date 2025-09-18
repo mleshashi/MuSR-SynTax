@@ -18,9 +18,16 @@ class GroqClient:
         The answer should be only the direct, calculated result (number, percentage, or short phrase), with no explanation or reasoning.
         """
         system_prompt = (
-            "You are a tax law expert. Given the following facts, narrative, and question, provide ONLY the direct, calculated answer as you would write in the answer box on a tax form. "
-            "Do NOT include any explanation, reasoning, or extra text. Just the answer itself (e.g., a number, percentage, or short phrase)."
+            "You are a tax law expert. Given the scenario, calculate the final deductible amount or credit "
+            "based ONLY on the provided facts, required reasoning pattern, and tax rules. "
+            "Do NOT rely on the narrative except to understand context, and do NOT assume any facts that are not explicitly given. "
+            "Always apply all statutory limits and adjustments relevant to the domain (e.g., business use percentage, AGI limitations, Section 179, bonus depreciation, MACRS conventions, meal deduction limitations, R&D credit rules, etc.). "
+            "Follow the reasoning pattern for the domain step by step internally, but output ONLY the final deductible amount or credit as a single number or dollar amount. "
+            "If multiple components contribute to the deduction or credit, combine them into a single total. "
+            "Do NOT include explanations, steps, or any extra text. "
+            "If the deduction or credit is zero, output '0'."
         )
+
         facts_text = "\n".join([f"- {fact}" for fact in facts])
         user_prompt = f"Scenario: {scenario_type}\n\nNarrative:\n{narrative}\n\nFacts:\n{facts_text}\n\nQuestion: {question}\n\nAnswer:"
         response = self.generate_with_system_prompt(system_prompt, user_prompt, max_tokens=50)
