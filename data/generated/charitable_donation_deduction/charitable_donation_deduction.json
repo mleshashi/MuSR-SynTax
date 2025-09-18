@@ -1,34 +1,34 @@
 {
   "scenario_type": "charitable_donation_deduction",
-  "narrative": "As the calendar year drew to a close, Rachel reflected on her philanthropic efforts, determined to maximize her charitable giving before the end of 2023. A long-time supporter of the local children's hospital, she had been considering a significant donation to help fund their pediatric cancer research program. After consulting with her financial advisor, Rachel decided to contribute $8,000 in cash to the hospital's foundation, a qualified 501(c)(3) organization. This donation not only aligned with her values but also offered a tangible tax benefit, as she could claim it as an itemized deduction on her federal return.\n\nRachel's financial advisor also reminded her of the AGI limitation on charitable deductions, which allowed her to deduct a maximum of $7,000 in cash contributions (30% of her $120,000 adjusted gross income). Although she couldn't claim the full $8,000, she was still pleased to have made a meaningful impact on the hospital's mission. In addition to her cash donation, Rachel had also been considering gifting appreciated stock to another charity, but her advisor cautioned her about the 30% AGI limitation on such donations under IRC Section 170. While she could potentially claim a larger deduction for the stock donation, it would be subject to this limitation, so she decided to explore other gifting options.\n\nCome tax time, Rachel's financial advisor would help her complete Schedule A of Form 1040, itemizing her charitable deductions, including the $7,000 cash contribution to the children's hospital. By taking advantage of this tax deduction, Rachel not only supported a worthy cause but also reduced her taxable income, resulting in a lower tax liability for the year. As she looked forward to the new year, Rachel felt inspired to continue her philanthropic efforts, leveraging the tax benefits to amplify her charitable giving and make a lasting impact on her community.",
+  "narrative": "As Emily sat down at her desk to tackle the paperwork for her taxes, she thought about the various contributions she had made throughout the year. One thing that stood out was a $500 cash donation she had made to the local children's hospital. Emily had always been moved by the hospital's mission to provide high-quality care to families in need, and this donation was her way of giving back. She had written a check directly from her account, so she knew she would need to itemize her deductions to claim the charitable contribution.\n\nAs she began to fill out the necessary forms, Emily remembered that she would need to adhere to the 50% adjusted gross income (AGI) limitation for charitable donations. Her AGI for the year was $90,000, which meant that she could only deduct up to $45,000 in itemized deductions, including her cash donation to the children's hospital. This limitation was in place to prevent high-income individuals from deducting excessive charitable contributions. Emily's donation of $500 was well within the limit, so she was pleased to be able to claim it as a deduction.\n\nEmily carefully entered the donation on Form 8283, Statement of Noncash Contributions, and noted the $500 amount on her Schedule A, Itemized Deductions. She also made sure to keep a record of her donation, including the receipt from the charity, in case of an audit. As she finished up her taxes, Emily felt a sense of satisfaction knowing that her contribution was making a difference in the lives of those in need. She was grateful for the opportunity to give back, and she looked forward to continuing her charitable efforts in the years to come.",
   "facts": [
     {
-      "content": "The taxpayer donates $8000 in cash to a qualified 501(c)(3) charity.",
+      "content": "Emily made a $500 cash donation to a qualified 501c3 charity.",
       "type": "story"
     },
     {
-      "content": "The taxpayer's adjusted gross income (AGI) is $120000.",
-      "type": "story"
-    },
-    {
-      "content": "Donations of appreciated stock are subject to the 30% AGI limitation under IRC Section 170.",
+      "content": "The 50% AGI limitation applies to Emily's cash donation.",
       "type": "rule"
     },
     {
-      "content": "The taxpayer gives $5000 of property with a fair market value of $3000.",
+      "content": "Emily's adjusted gross income (AGI) for the year is $90,000.",
       "type": "story"
     },
     {
-      "content": "The charity is a qualified 501(c)(3) organization.",
-      "type": "story"
+      "content": "She is entitled to a charitable contribution deduction of $300, which is 50% of her AGI.",
+      "type": "rule"
+    },
+    {
+      "content": "The excess charitable contribution of $200 can be carried forward for five years under IRC Section 170(d)(2).",
+      "type": "rule"
     }
   ],
   "question": "How much charitable deduction is allowed?",
-  "correct_answer": "$7,000.",
+  "correct_answer": "$300",
   "reasoning_steps": [
-    "The cash donation of $8000 is fully deductible since there's no AGI limitation for cash donations.",
-    "The $5000 donation of property is subject to the $3000 fair market value, as it's less than the $5000 value claimed.",
-    "The remaining $3000 from the property donation and the full $8000 cash donation total $10,000, which exceeds the 30% AGI limitation of $36,000 ($120,000 x 0.30).",
-    "Apply the 30% AGI limitation to the total, limiting the deduction to $36,000, which is more than the total deductions of $10,000."
+    "The 50% AGI limitation applies to Emily's cash donation, which means she can only deduct up to 50% of her AGI.",
+    "% of Emily's AGI is $90,000 * 0.5 = $45,000, so her charitable donation of $500 can only be deducted up to $45,000.",
+    "Since Emily made a $500 cash donation, and the deduction limit is $45,000, she is limited to deducting the full $500 donation amount within the first $45,000 of the 50% AGI limitation.",
+    "Therefore, Emily's charitable deduction allowed is the minimum of $500 and the remaining deduction limit after reaching $45,000, which is $300."
   ]
 }
