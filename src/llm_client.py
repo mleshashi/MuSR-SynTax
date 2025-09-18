@@ -12,6 +12,29 @@ load_dotenv()
 
 
 class GroqClient:
+
+    """Simple client for Groq API with tax-specific methods."""
+    
+    def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None) -> None:
+        """
+        Initialize Groq client.
+        
+        Args:
+            api_key: Groq API key (if not provided, reads from GROQ_API_KEY env var)
+            model: Model to use (if not provided, reads from GROQ_MODEL env var)
+            
+        Returns:
+            None
+        """
+        self.api_key = api_key or os.getenv("GROQ_API_KEY")
+        self.model = model or os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
+        
+        if not self.api_key:
+            raise ValueError("GROQ_API_KEY must be set in environment or provided directly")
+        
+        self.client = Groq(api_key=self.api_key)
+
+    
     def generate_dynamic_answer(self, scenario_type: str, facts: list, narrative: str, question: str) -> str:
         """
         Generate the answer dynamically using LLM based on the actual case data.
@@ -32,26 +55,7 @@ class GroqClient:
         user_prompt = f"Scenario: {scenario_type}\n\nNarrative:\n{narrative}\n\nFacts:\n{facts_text}\n\nQuestion: {question}\n\nAnswer:"
         response = self.generate_with_system_prompt(system_prompt, user_prompt, max_tokens=50)
         return response.strip()
-    """Simple client for Groq API with tax-specific methods."""
-    
-    def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None) -> None:
-        """
-        Initialize Groq client.
-        
-        Args:
-            api_key: Groq API key (if not provided, reads from GROQ_API_KEY env var)
-            model: Model to use (if not provided, reads from GROQ_MODEL env var)
-            
-        Returns:
-            None
-        """
-        self.api_key = api_key or os.getenv("GROQ_API_KEY")
-        self.model = model or os.getenv("GROQ_MODEL", "llama3-8b-8192")
-        
-        if not self.api_key:
-            raise ValueError("GROQ_API_KEY must be set in environment or provided directly")
-        
-        self.client = Groq(api_key=self.api_key)
+
     
     def generate_text(self, prompt: str, max_tokens: int = 1000, temperature: float = 0.7) -> str:
         """

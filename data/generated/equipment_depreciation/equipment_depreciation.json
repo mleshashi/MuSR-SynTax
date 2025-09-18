@@ -1,34 +1,34 @@
 {
   "scenario_type": "equipment_depreciation",
-  "narrative": "As we embarked on the renovation of our new office building, I couldn't help but think about the financial implications of our investment. The total cost for the renovation and new construction came out to $25,000, a significant expense that we had to carefully budget for. Our accountant, Rachel, walked me through the options for depreciating the equipment and building, explaining that we could use the Modified Accelerated Cost Recovery System (MACRS) to spread out the costs over time. She emphasized that the recovery periods under MACRS varied, ranging from 15 to 39 years, depending on the type of property we were depreciating.\n\nRachel pointed out that since we were placing the new equipment in service on January 1, it would qualify for full-year depreciation, which would give us the maximum amount of deductions for that year. She recommended that we depreciate the building over 39 years, as this was the standard recovery period for non-residential real property under MACRS. The equipment, on the other hand, would be depreciated over a shorter period, as it had a shorter useful life. Rachel explained that this would not only help us reduce our taxable income but also provide us with a more accurate picture of our company's financial performance over time.\n\nAs we finalized the depreciation schedule, I was impressed by how much of a difference it would make in our bottom line. By depreciating the building and equipment over time, we would be able to reduce our taxable income and lower our tax liability. Rachel assured me that this was a common practice for businesses like ours, and that it would help us make the most of our investment in the new office building. With the depreciation schedule in place, we could now focus on enjoying the benefits of our new space, knowing that we had also taken a proactive approach to managing our finances.",
+  "narrative": "As the new year began, Smith & Co. was eager to upgrade its office infrastructure to better support the growing needs of the business. After careful consideration, the company's management decided to invest in a suite of state-of-the-art office equipment, including printers, copiers, and computers. The total cost for the new equipment came out to $30,000, a significant investment in the company's ability to function efficiently.\n\nThe equipment was installed and put into service on January 1, marking the start of its five-year Modified Accelerated Cost Recovery System (MACRS) recovery period. According to the IRS guidelines, the company would be able to depreciate the equipment over this five-year period, with a specific percentage of the total cost deductible each year. This would allow the company to claim a significant portion of the equipment's cost as a tax deduction, reducing its taxable income and ultimately minimizing its tax liability.\n\nAs the company's accountant began to work on the tax returns, he noted that the 5-year MACRS recovery period would result in the following depreciation schedule: 20% in the first year, 32% in the second year, 19.2% in the third year, 11.52% in the fourth year, and 5.76% in the fifth year. This would enable the company to depreciate the office equipment by $6,000 in the first year, $9,600 in the second year, $5,760 in the third year, $3,475 in the fourth year, and $1,728 in the fifth year. By claiming these depreciation deductions, Smith & Co. would be able to reduce its taxable income and minimize its tax liability, making the most of its investment in the new office equipment.",
   "facts": [
     {
-      "content": "The new office building costs $25000",
+      "content": "The business purchased $30000 of office equipment.",
       "type": "story"
     },
     {
-      "content": "MACRS recovery periods range from 15 to 39 years",
+      "content": "The office equipment asset falls under the 5-year MACRS recovery period.",
+      "type": "rule"
+    },
+    {
+      "content": "The equipment was placed in service on January 1.",
       "type": "story"
     },
     {
-      "content": "Equipment placed in service on January 1 qualifies for full-year depreciation",
-      "type": "conclusion"
-    },
-    {
-      "content": "A business uses 75% of $30000 worth of equipment for work purposes",
+      "content": "The business uses the equipment 75% for business purposes.",
       "type": "rule"
     },
     {
-      "content": "Section 179 expensing is available up to $180000 in 2023 for qualified property",
-      "type": "rule"
+      "content": "The total equipment purchases for the year were $80000.",
+      "type": "story"
     }
   ],
   "question": "What is the annual depreciation deduction?",
-  "correct_answer": "$4500 \n\n($18,000 (75% of $24,000) for equipment under Section 179 expensing \n-$18,000 (since Section 179 is fully expensed in the first year) \n+$3000 (5",
+  "correct_answer": "$6,000",
   "reasoning_steps": [
-    "To calculate the annual depreciation deduction, follow these steps:",
-    "The business qualifies for Section 179 expensing up to $180,000 in 2023, and the equipment costs $18,000 to the business.",
-    "Given that Section 179 expensing allows for full expensing of qualified property in the first year, the $18,000 depreciation from Section 179 expensing is fully expensed in the first year.",
-    "However, since the equipment costs $30,000 and the business uses 75% of it for work purposes, the adjusted basis is $24,000 (75% of $30,000)."
+    "The annual depreciation deduction for the office equipment can be calculated using the Modified Accelerated Cost Recovery System (MACRS) as follows:",
+    "The business uses the equipment 75% for business purposes, so it will be eligible for a business use percentage of 75% of the total depreciation deduction.",
+    "The equipment is placed in service on January 1 and falls under the 5-year MACRS recovery period, so the annual depreciation rate is 20% (1/5th of the total).",
+    "The total equipment purchases for the year were $80000, but since the question specifies $30000 of office equipment, we will focus on this specific asset."
   ]
 }

@@ -1,34 +1,34 @@
 {
   "scenario_type": "business_meal_deduction",
-  "narrative": "As we wrapped up the quarterly sales projections, our team leader, Rachel, suggested we treat ourselves to a celebratory dinner to discuss the numbers and strategies with our valued clients. We decided on a mid-range restaurant in the city, known for its upscale atmosphere and delectable cuisine. The evening was a crucial opportunity to strengthen our relationships and showcase our company's capabilities to potential new partners.\n\nThe dinner meeting was a resounding success, with lively discussions and thoughtful insights shared among our team and clients. We spent several hours enjoying each other's company, exploring the intricacies of our industry, and refining our approach for the upcoming quarter. As we reviewed our financials and mapped out our goals, the company's growth and stability were the top priorities. The dinner meeting was instrumental in fostering a sense of camaraderie and collaboration, which would undoubtedly translate into increased productivity and success for our organization.\n\nThe total bill for the evening came to $350, which we deemed a reasonable expense considering the number of attendees and the upscale quality of the restaurant. As an ordinary and necessary expense for a sales presentation, the dinner meeting qualified as a legitimate business expense. By treating our clients and team members to a memorable and engaging experience, we strengthened our professional relationships and laid the groundwork for future collaborations and growth opportunities.",
+  "narrative": "It was a typical Wednesday evening when our team of eight gathered at a local restaurant for an office meeting. Our sales conference had been a huge success, and we were all celebrating with a well-deserved dinner. The company had booked a private room at the upscale eatery, and we spent the evening discussing our quarterly goals and brainstorming strategies for the upcoming months. Over plates of steaming pasta and glasses of fine wine, we delved into the details of our sales performance and identified areas for improvement. The relaxed atmosphere and good food helped to foster a sense of camaraderie and teamwork, and by the end of the evening, we were all feeling revitalized and ready to tackle our challenges head-on.\n\nAs we tallied up the expenses from the evening, I noted that the company had spent a total of $125 on dinner for the team. While this may seem like a significant amount, I knew that the meal was a necessary expense in order to facilitate our team-building and planning efforts. After all, a successful business is built on strong relationships and effective communication, and our dinner gathering had been an essential part of our sales conference. I made a mental note to include the cost of the meal in our company's expense report, knowing that it would be eligible for a tax deduction as a business meal expense.\n\nAs I reflected on the evening's events, I was reminded of the importance of keeping our business meals focused on legitimate business purposes. While a dinner meeting can be a great way to build relationships and establish trust with clients, it's essential to ensure that the primary purpose of the meal is business-related rather than purely social. In our case, the dinner had been a natural extension of our sales conference, and I was confident that our company would be able to claim the cost as a deductible business expense.",
   "facts": [
     {
-      "content": "The company spent $350 on a business dinner at a restaurant for 8 employees and clients.",
+      "content": "The company spent $125 on dinner for 8 employees at an office meeting",
       "type": "story"
     },
     {
-      "content": "The business dinner qualifies as an ordinary and necessary expense for a sales presentation.",
-      "type": "conclusion"
-    },
-    {
-      "content": "The dinner meeting took place at a mid-range restaurant in the city.",
-      "type": "story"
-    },
-    {
-      "content": "The ratio of clients to employees was 2:6.",
-      "type": "story"
-    },
-    {
-      "content": "The company is allowed to deduct 50% of the business dinner expense under IRC Section 274.",
+      "content": "Business meals are only deductible if they are for legitimate business purposes",
       "type": "rule"
+    },
+    {
+      "content": "A sales conference at a hotel is an ordinary and necessary business expense",
+      "type": "story"
+    },
+    {
+      "content": "The company spent $300 on lunch for 4 clients at a restaurant",
+      "type": "story"
+    },
+    {
+      "content": "Client meetings at a conference hotel qualify as ordinary business practice for marketing",
+      "type": "story"
     }
   ],
   "question": "How much of the meal expense is deductible?",
-  "correct_answer": "$175.",
+  "correct_answer": "$100 \n\n($125 * (1-0.2)) = $100 \n\n(assuming a 20% nondeductible food and beverage expense under current rules)",
   "reasoning_steps": [
-    "The business dinner expense is an ordinary and necessary expense for a sales presentation, qualifying it for a deduction.",
-    "The total business dinner expense is $350, which can be deducted at a rate of 50% under IRC Section 274.",
-    "The ratio of clients to employees, and the fact that the dinner qualified as an ordinary and necessary expense, does not affect the total amount that can be deducted, but rather the type of expense allowed.",
-    "% of $350 is $175."
+    "The $125 spent on dinner for 8 employees at an office meeting may not be entirely deductible as it doesn't directly relate to a business purpose like a sales conference or client meeting.",
+    "Since the company spent $300 on lunch for 4 clients at a restaurant, which qualifies as ordinary business practice for marketing, this amount is likely to be deductible.",
+    "However, current rules allow for a 20% nondeductible food and beverage expense, which applies to all meal expenses, including the $300 spent on clients.",
+    "To find the deductible amount, subtract 20% of the total meal expenses from the total meal expenses, resulting in $100 being deductible."
   ]
 }
