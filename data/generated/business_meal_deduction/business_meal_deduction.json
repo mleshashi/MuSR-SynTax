@@ -1,0 +1,30 @@
+{
+  "scenario_type": "business_meal_deduction",
+  "narrative": "It was a typical Wednesday evening for Rachel, the sales team leader at GreenTech Solutions. She had been planning a dinner meeting with several key clients for weeks, and the evening had finally arrived. As she arrived at the hotel conference room, she was greeted by their marketing team and the five clients they had invited. The group was lively, and Rachel could tell that the evening was off to a great start. She had decided to treat her team to dinner as a gesture of appreciation for their hard work and to foster a sense of camaraderie among the team members.\n\nOver a four-course meal, the group discussed everything from new product launches to industry trends. Rachel's team, consisting of herself and sales representative, Alex, were in their element, effortlessly navigating the conversations and building rapport with the clients. The evening was a perfect blend of business and networking, and Rachel was confident that it would pay off in the long run. As the night drew to a close, Rachel reflected on the $300 she had spent on the dinner, but she knew it was a necessary investment in the success of her team and the company.\n\nAs the sales team leader, Rachel often found herself justifying the expenses incurred by her team. However, in this case, she knew that the dinner meeting was an ordinary and necessary expense for her team. Business dinners with clients like these were a crucial part of their sales strategy, and she was confident that the relationships built at this dinner would lead to new business opportunities in the future. Rachel made a mental note to submit the expense report, which would include the $300 dinner expense, as a legitimate business expense for tax purposes.",
+  "facts": [
+    {
+      "content": "A sales team leader spent $300 on a dinner meeting at a hotel conference room",
+      "type": "story"
+    },
+    {
+      "content": "Business dinners with clients are ordinary and necessary for sales teams",
+      "type": "story"
+    },
+    {
+      "content": "Five clients and two sales representatives were present at the dinner",
+      "type": "story"
+    },
+    {
+      "content": "The dinner was held at a high-end restaurant in downtown New York",
+      "type": "story"
+    }
+  ],
+  "question": "How much of the meal expense is deductible?",
+  "correct_answer": "50% of the meal cost (subject to IRC Section 274)",
+  "reasoning_steps": [
+    "The sales team leader's meal expense is considered ordinary and necessary for business purposes, thus meeting one key requirement for deductibility.",
+    "To determine the deductibility of the meal expense, we must consider the total cost of the dinner and the types of expenses included, such as food, drinks, and possibly gratuities.",
+    "IRC Section 274 applies specific rules for deducting meal expenses, which includes a general rule that only 50% of the meal expense is deductible.",
+    "The total cost of the dinner, including the $300 spent by the sales team leader, must be reduced by 50% to determine the amount of the meal expense that is deductible."
+  ]
+}

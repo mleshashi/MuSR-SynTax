@@ -1,0 +1,34 @@
+{
+  "scenario_type": "home_office_deduction",
+  "narrative": "As I sat down at my desk, sipping my morning coffee, I couldn't help but feel grateful for the dedicated workspace that had become the cornerstone of my business. Over the past year, my home office had evolved from a cramped corner of our spare room to a fully-fledged space that not only accommodated my needs but also provided a sense of separation from the rest of our home. Measuring 100 square feet, our home office comprised a manageable 6.7% of our overall 1,500 square-foot living space. Despite its relatively small size, the room had been meticulously designed to maximize productivity, with a sleek desk, a comfortable reading nook, and ample storage for my business supplies.\n\nAs I began to sort through the day's tasks, I thought about how fortunate I was to have this dedicated space. Not only did it allow me to focus on my work without distractions, but it also enabled me to separate my personal and professional lives. According to our family's usage patterns, I spent approximately 80% of my time working from home, which made this dedicated space a crucial aspect of my business operations. It was no wonder that our accountant had recommended that we take advantage of the home office deduction on our taxes. By accurately calculating the business use percentage of our home, we could potentially reduce our taxable income and lower our tax liability.\n\nI made a mental note to discuss the specifics of the home office deduction with our accountant, including the calculation of the business use percentage based on the square footage of our home office and the total square footage of our residence. With a solid understanding of the rules and regulations surrounding this deduction, I was confident that we could navigate the process with ease and maximize our tax savings. As I settled into my work routine, I felt a sense of satisfaction knowing that our home office was not only a productive workspace but also a valuable tax benefit.",
+  "facts": [
+    {
+      "content": "The home office space is 100 square feet.",
+      "type": "story"
+    },
+    {
+      "content": "The total square footage of the home is 1,500 square feet.",
+      "type": "story"
+    },
+    {
+      "content": "The home office space is used exclusively for business for 80% of the time.",
+      "type": "rule"
+    },
+    {
+      "content": "Qualifying home expenses include mortgage interest, property taxes, insurance, utilities, and home maintenance.",
+      "type": "story"
+    },
+    {
+      "content": "To calculate the home office deduction, the business percentage of home must be determined by dividing the home office square footage by the total home square footage.",
+      "type": "rule"
+    }
+  ],
+  "question": "What percentage of home expenses can be deducted?",
+  "correct_answer": "Business use percentage of total home area",
+  "reasoning_steps": [
+    "The business use percentage of total home area can be determined by calculating the ratio of the home office square footage to the total home square footage.",
+    "The home office square footage is 100 square feet and the total home square footage is 1,500 square feet.",
+    "To find the percentage, divide the home office square footage by the total home square footage and multiply by 100.",
+    "Business use percentage is determined by the time the home office space is used exclusively for business, which is stated as 80% of the time."
+  ]
+}
