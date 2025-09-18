@@ -1,34 +1,34 @@
 {
   "scenario_type": "equipment_depreciation",
-  "narrative": "As the new year began, Smith & Co. was eager to upgrade its office infrastructure to better support the growing needs of the business. After careful consideration, the company's management decided to invest in a suite of state-of-the-art office equipment, including printers, copiers, and computers. The total cost for the new equipment came out to $30,000, a significant investment in the company's ability to function efficiently.\n\nThe equipment was installed and put into service on January 1, marking the start of its five-year Modified Accelerated Cost Recovery System (MACRS) recovery period. According to the IRS guidelines, the company would be able to depreciate the equipment over this five-year period, with a specific percentage of the total cost deductible each year. This would allow the company to claim a significant portion of the equipment's cost as a tax deduction, reducing its taxable income and ultimately minimizing its tax liability.\n\nAs the company's accountant began to work on the tax returns, he noted that the 5-year MACRS recovery period would result in the following depreciation schedule: 20% in the first year, 32% in the second year, 19.2% in the third year, 11.52% in the fourth year, and 5.76% in the fifth year. This would enable the company to depreciate the office equipment by $6,000 in the first year, $9,600 in the second year, $5,760 in the third year, $3,475 in the fourth year, and $1,728 in the fifth year. By claiming these depreciation deductions, Smith & Co. would be able to reduce its taxable income and minimize its tax liability, making the most of its investment in the new office equipment.",
+  "narrative": "As I sat at my desk, pouring over the financials for our small manufacturing business, I couldn't help but feel a sense of accomplishment. Just a few months ago, we had made a significant investment in new equipment, purchasing a state-of-the-art machine for $30,000. The team was thrilled with the upgrade, and production had already seen a notable boost. From a tax perspective, I knew we needed to account for the depreciation of this asset, which was classified as 5-year property under the Modified Accelerated Cost Recovery System (MACRS).\n\nAfter consulting the MACRS table, I confirmed that our new equipment would be depreciated over a 5-year period, with a half-year convention applied to the first and last years of ownership. This meant that the equipment would be depreciated in the following pattern: 20% in year one, 32% in year two, 19.2% in year three, 11.52% in year four, and 5.76% in year five. I also took note that since the equipment was placed in service in 2026, bonus depreciation would be available. This would allow us to depreciate an additional 80% of the equipment's cost in the first year, resulting in a total first-year depreciation of $24,000 ($30,000 x 80%) + ($30,000 x 20% = $6,000).\n\nAs I entered the depreciation schedule into our accounting software, I felt confident that we had accurately accounted for the asset's value. The bonus depreciation would provide a significant tax benefit in the first year, and the MACRS schedule would ensure that we were depreciating the equipment consistently over its useful life. With this in mind, I was able to project our tax liability for the upcoming year and make informed decisions about our financial planning.",
   "facts": [
     {
-      "content": "The business purchased $30000 of office equipment.",
-      "type": "story"
-    },
-    {
-      "content": "The office equipment asset falls under the 5-year MACRS recovery period.",
+      "content": "Business equipment purchased for $30000 is classified as 5-year property under MACRS.",
       "type": "rule"
     },
     {
-      "content": "The equipment was placed in service on January 1.",
+      "content": "year property has a MACRS recovery period of 5 years.",
       "type": "story"
     },
     {
-      "content": "The business uses the equipment 75% for business purposes.",
+      "content": "Bonus depreciation is available for assets placed in service before January 1 2027.",
+      "type": "story"
+    },
+    {
+      "content": "First-year depreciation for $30000 asset under 100% bonus depreciation is $30000.",
       "type": "rule"
     },
     {
-      "content": "The total equipment purchases for the year were $80000.",
-      "type": "story"
+      "content": "If the business use percentage is 80%, the business can claim 80% of the first-year depreciation as a deduction.",
+      "type": "rule"
     }
   ],
   "question": "What is the annual depreciation deduction?",
-  "correct_answer": "$6,000",
+  "correct_answer": "$6,400 \n\n$24,000 (bonus depreciation) + $2,400 (20% of $12,000, business use percentage of $30,000)",
   "reasoning_steps": [
-    "The annual depreciation deduction for the office equipment can be calculated using the Modified Accelerated Cost Recovery System (MACRS) as follows:",
-    "The business uses the equipment 75% for business purposes, so it will be eligible for a business use percentage of 75% of the total depreciation deduction.",
-    "The equipment is placed in service on January 1 and falls under the 5-year MACRS recovery period, so the annual depreciation rate is 20% (1/5th of the total).",
-    "The total equipment purchases for the year were $80000, but since the question specifies $30000 of office equipment, we will focus on this specific asset."
+    "The business equipment is classified as 5-year property under MACRS, but the bonus depreciation available for assets placed in service before January 1, 2027, applies to the overall purchase price, allowing for first-year depreciation of $30,000.",
+    "The business use percentage is 80%, but the bonus depreciation applies to the entire purchase price, not just the business use portion, resulting in $24,000 of bonus depreciation.",
+    "The remaining undepreciated basis after the bonus depreciation would be $6,000 ($30,000 - $24,000). However, since the equipment has a 5-year recovery period, the business will depreciate the remaining basis over 5 years.",
+    "The annual depreciation for the remaining basis of $6,000 over 5 years would be $1,200 per year, but this is not part of the provided answer."
   ]
 }
