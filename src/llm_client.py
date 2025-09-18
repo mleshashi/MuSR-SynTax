@@ -12,6 +12,19 @@ load_dotenv()
 
 
 class GroqClient:
+    def generate_dynamic_answer(self, scenario_type: str, facts: list, narrative: str, question: str) -> str:
+        """
+        Generate the answer dynamically using LLM based on the actual case data.
+        The answer should be only the direct, calculated result (number, percentage, or short phrase), with no explanation or reasoning.
+        """
+        system_prompt = (
+            "You are a tax law expert. Given the following facts, narrative, and question, provide ONLY the direct, calculated answer as you would write in the answer box on a tax form. "
+            "Do NOT include any explanation, reasoning, or extra text. Just the answer itself (e.g., a number, percentage, or short phrase)."
+        )
+        facts_text = "\n".join([f"- {fact}" for fact in facts])
+        user_prompt = f"Scenario: {scenario_type}\n\nNarrative:\n{narrative}\n\nFacts:\n{facts_text}\n\nQuestion: {question}\n\nAnswer:"
+        response = self.generate_with_system_prompt(system_prompt, user_prompt, max_tokens=50)
+        return response.strip()
     """Simple client for Groq API with tax-specific methods."""
     
     def __init__(self, api_key: Optional[str] = None, model: Optional[str] = None) -> None:
