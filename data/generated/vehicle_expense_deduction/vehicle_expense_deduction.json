@@ -1,34 +1,34 @@
 {
   "scenario_type": "vehicle_expense_deduction",
-  "narrative": "As the owner of a small consulting firm, Sarah had been relying on her trusty Honda CR-V as a mobile office for the past year. With her business growing rapidly, she found herself spending more and more time on the road, meeting with clients, attending conferences, and conducting site visits. To accurately track her vehicle expenses, Sarah had kept a meticulous mileage log throughout the year, diligently recording every business and personal trip. After tallying the numbers, she determined that she used her vehicle for business purposes approximately 60% of the time, a figure that would be crucial in calculating her vehicle expense deduction.\n\nTo determine her business use percentage, Sarah had carefully reviewed her mileage log, distinguishing between the miles driven for work-related activities and those for personal errands or leisure activities. With the business use percentage confirmed, she next turned her attention to calculating the actual expense associated with using her vehicle for business purposes. The IRS had announced a standard mileage rate of 65.5 cents per mile for business use in 2023, a figure that would simplify the calculation process. By multiplying this rate by the total number of business miles driven (60% of 25,000 miles), Sarah was able to arrive at a business use deduction of $39,750 ($65.5 cents/mile x 60% x 25,000 miles).\n\nSarah was relieved to have a clear understanding of her vehicle expense deduction, as it would enable her to accurately report her business income and expenses on her tax return. With her trusty mileage log and a solid grasp of the IRS's standard mileage rate, she was confident that she had accurately calculated her deduction. By taking the time to carefully track her vehicle expenses and business use percentage, Sarah was able to ensure that she was taking advantage of all the tax savings available to her, allowing her to reinvest in her business and drive growth.",
+  "narrative": "As the owner of a small consulting firm, I knew it was essential to accurately track business expenses to ensure I was taking advantage of all the deductions available to me. One of the key benefits of running my own business was the ability to write off certain expenses on my tax return. At the top of that list was the business use percentage of my vehicle, a sedan I used for both personal and professional purposes. To accurately calculate this percentage, I had to maintain a log of all the miles I drove in a given year.\n\nOver the course of 12 months, I logged every single mile I drove in my vehicle, totaling 25,000 miles. Breaking down this number into business and personal use was crucial, as the IRS only allows businesses to deduct the percentage of miles driven for work-related purposes. After carefully reviewing my log, I determined that 12,000 miles of the total 25,000 miles were driven for business use. This breakdown was essential in calculating the business use percentage of my vehicle, which would ultimately impact my ability to deduct expenses such as gas, maintenance, and insurance on my tax return.\n\nMaintaining a log of business miles may seem like a tedious task, but it was an essential step in ensuring I was accurately tracking my business expenses. The log allowed me to not only calculate the business use percentage of my vehicle but also to identify areas where I could improve my record-keeping and minimize potential errors on my tax return. By being meticulous about tracking my business miles, I was able to take full advantage of the deductions available to me and reduce my taxable income accordingly.",
   "facts": [
     {
-      "content": "The vehicle was driven 25,000 miles last year.",
+      "content": "The business vehicle is driven 25000 miles in one year",
       "type": "story"
     },
     {
-      "content": "The business use percentage was calculated from the mileage log to be 60%.",
+      "content": "The business vehicle is driven 12000 miles for business use",
+      "type": "story"
+    },
+    {
+      "content": "To calculate the business use percentage for the vehicle a log of all miles driven must be maintained",
       "type": "rule"
     },
     {
-      "content": "The standard mileage rate for 2023 is 65.5 cents per mile.",
-      "type": "story"
+      "content": "Business use percentage is required to be at least 50% of total miles driven",
+      "type": "rule"
     },
     {
-      "content": "The actual vehicle expenses for the year were $6,500.",
-      "type": "story"
-    },
-    {
-      "content": "The vehicle was purchased for $32,000 and is subject to Modified Accelerated Cost Recovery System (MACRS) depreciation.",
+      "content": "Actual expense method includes depreciation of the vehicle as well as operating expenses",
       "type": "story"
     }
   ],
   "question": "What vehicle expenses are deductible?",
-  "correct_answer": "$9,150 \n\n($39,750 business use deduction * 0.6 due to 60% business use percentage) = $23,850 \n(Actual vehicle expenses: $6,500) \n($23,850 + $6",
+  "correct_answer": "$9,600",
   "reasoning_steps": [
-    "First, calculate the total business miles driven by multiplying the total miles driven by the business use percentage: 25,000 miles * 0.6 = 15,000 miles.",
-    "Second, calculate the total business use deduction by multiplying the business miles driven by the standard mileage rate: 15,000 miles * 65.5 cents/mile = $983,250, then multiply by 0.6 to get the total business use expense deduction: $983,250 * 0.6 = $595,050.",
-    "Third, determine the vehicle's depreciation for the year, using the MACRS method, to compare with the actual expenses. However, this calculation is not provided in the steps, since the answer provided ($9,150) is based on actual vehicle expenses.",
-    "Fourth, calculate the total deductible vehicle expenses by adding the actual vehicle expenses to the business use expense deduction, then apply the 60% business use percentage to this result, to obtain the final answer, but it seems like it was miscalculated in the question so we go with the correct answer given."
+    "The business use percentage must be calculated based on the vehicle log, but at least 50% of total miles driven is required for the vehicle to be considered business-use-eligible.",
+    "The total miles driven in one year is 25000, and the business use must be at least 50% of this total, so the minimum business use is 25000 * 0.5 = 12500 miles.",
+    "However, the vehicle was driven 12000 miles for business use, which exceeds the minimum business use of 12500 miles.",
+    "To calculate the business use percentage, the business use miles (12000) divided by the total miles driven (25000) is 0.48, or 48%."
   ]
 }
