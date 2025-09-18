@@ -1,317 +1,182 @@
 """
-Fully dynamic tax case generator with validation and consistency checks.
-All domain information from JSON templates.
+Fully dynamic tax case generator - all domain information from JSON templates.
+Add new domains by editing tax_domains.json only!
 """
 import os
-import json
-import yaml
-from typing import List, Dict, Any, Optional, Tuple
-from datetime import datetime
+from typing import List, Dict, Any, Optional
 
 from core import TaxCase, TaxFact, classify_fact_type
-from llm_client import GroqClient, MockGroqClient, get_client
+from llm_client import GroqClient
 from tax_domains import TaxDomainManager
 
 
 class TaxGenerator:
     """
-    Enhanced generator with validation and consistency checking.
-    All domain info comes from JSON templates.
+    Fully dynamic generator - all domain info comes from JSON templates.
+    Add new domains by editing tax_domains.json only!
     """
     
-    def __init__(self, api_key: Optional[str] = None, config_file: Optional[str] = None) -> None:
-        """
-        Initialize tax generator with configuration support.
-        
-        Args:
-            api_key: Optional API key for LLM
-            config_file: Optional path to configuration file
-        """
-        # Load configuration
-        self.config = self._load_config(config_file)
-        
-        # Initialize LLM client
-        self.llm_client = get_client(api_key)
-        
-        # Initialize domain manager
-        template_file = self.config.get('paths', {}).get('domain_templates')
-        self.domain_manager = TaxDomainManager(template_file)
-        
-        # Track generated scenarios
+    def __init__(self, api_key: Optional[str] = None) -> None:
+        """Initialize dynamic tax generator."""
+        self.llm_client = GroqClient(api_key=api_key)
+        self.domain_manager = TaxDomainManager()
         self.generated_scenarios = set()
-        
-        # Get questions from templates
+        # Get all primary questions dynamically from templates
         self.domain_questions = self.domain_manager.get_domain_questions()
-        
-        # Statistics tracking
-        self.stats = {
-            "generated": 0,
-            "validation_passed": 0,
-            "validation_failed": 0,
-            "regenerations": 0
-        }
-        
-        print(f"✓ Generator initialized with {len(self.domain_questions)} domains")
+        print(f"✓ Dynamic generator initialized with {len(self.domain_questions)} domains from templates")
     
-    def _load_config(self, config_file: Optional[str] = None) -> Dict[str, Any]:
-        """Load configuration from YAML file."""
-        config_file = config_file or "config/default_config.yaml"
-        
-        if os.path.exists(config_file):
-            try:
-                with open(config_file) as f:
-                    config = yaml.safe_load(f)
-                print(f"✓ Loaded configuration from {config_file}")
-                return config
-            except Exception as e:
-                print(f"Warning: Could not load config: {e}")
-        
-        # Default configuration
-        return {
-            "generation": {
-                "max_attempts": 3,
-                "temperature": 0.7,
-                "max_tokens": 1000
-            },
-            "validation": {
-                "require_consistency": True,
-                "min_facts": 4,
-                "max_facts": 7
-            },
-            "paths": {
-                "domain_templates": "data/templates/tax_domains.json",
-                "generated_cases": "data/generated"
-            }
-        }
-    
-    def generate_case(self, scenario_type: str, force_regenerate: bool = False) -> Optional[TaxCase]:
+    def generate_case(self, scenario_type: str, context: str = "") -> TaxCase:
         """
-        Generate a complete tax case with validation.
-        
-        Args:
-            scenario_type: Type of tax scenario to generate
-            force_regenerate: Force regeneration even if exists
-            
-        Returns:
-            Generated TaxCase or None if generation fails
+        Generate a complete tax reasoning case using dynamic templates.
+        All domain information comes from tax_domains.json!
         """
-        # Check if domain exists
+        # Check if domain exists in templates
         if scenario_type not in self.domain_manager.get_all_domains():
-            available = list(self.domain_manager.get_all_domains().keys())
-            print(f"Error: Domain '{scenario_type}' not found. Available: {available}")
-            return None
+            available_domains = list(self.domain_manager.get_all_domains().keys())
+            raise ValueError(f"Domain '{scenario_type}' not found in templates. Available: {available_domains}")
         
-        # Check if already generated
-        if not force_regenerate and scenario_type in self.generated_scenarios:
-            print(f"Case for {scenario_type} already generated")
-            return self._load_existing_case(scenario_type)
+        # Check if already generated (in memory or on disk)
+        case_file_path = f"data/generated/{scenario_type}/{scenario_type}.json"
+        if scenario_type in self.generated_scenarios or os.path.exists(case_file_path):
+            print(f"Case for {scenario_type} already exists, skipping duplicate generation")
+            loaded_case = self._load_existing_case(scenario_type)
+            if loaded_case is not None:
+                self.generated_scenarios.add(scenario_type)
+                return loaded_case
+            else:
+                print(f"Warning: Expected case file for {scenario_type} but could not load. Regenerating...")
         
-        print(f"\nGenerating {scenario_type} case...")
+        print(f"Generating {scenario_type} case using dynamic templates...")
         
-        # Get domain context
+        # Get domain context dynamically from templates
         domain_context = self.domain_manager.get_domain_context(scenario_type)
         
-        max_attempts = self.config.get('generation', {}).get('max_attempts', 3)
+        # Generate all components using template information
+        raw_facts = self.llm_client.generate_tax_facts(scenario_type, domain_context + "\n" + context)
+        raw_narrative = self.llm_client.generate_tax_narrative(scenario_type, raw_facts[:3])
         
-        for attempt in range(max_attempts):
-            try:
-                # Generate with embedded answer for consistency
-                fact_result = self.llm_client.generate_tax_facts_with_answer(
-                    scenario_type, 
-                    domain_context["context_string"]
-                )
-                
-                raw_facts = fact_result["facts"]
-                embedded_answer = fact_result.get("embedded_answer")
-                
-                # Validate fact count
-                min_facts = self.config.get('validation', {}).get('min_facts', 4)
-                if len(raw_facts) < min_facts:
-                    print(f"  Attempt {attempt + 1}: Too few facts ({len(raw_facts)}), regenerating...")
-                    continue
-                
-                # Generate narrative
-                raw_narrative = self.llm_client.generate_tax_narrative(scenario_type, raw_facts[:3])
-                
-                # Get question from templates
-                question = self.domain_questions.get(scenario_type, "What is the tax treatment?")
-                
-                # Generate or use embedded answer
-                if embedded_answer and self.llm_client.validate_fact_consistency(raw_facts, embedded_answer):
-                    answer = embedded_answer
-                else:
-                    answer = self.llm_client.generate_dynamic_answer(
-                        scenario_type, raw_facts, raw_narrative, question
-                    )
-                
-                # Validate consistency
-                if not self.llm_client.validate_fact_consistency(raw_facts, answer):
-                    print(f"  Attempt {attempt + 1}: Answer inconsistent with facts, regenerating...")
-                    self.stats["regenerations"] += 1
-                    continue
-                
-                # Generate reasoning steps
-                reasoning_steps = self.llm_client.generate_reasoning_steps(
-                    scenario_type, raw_facts, question, answer
-                )
-                
-                # Create structured case
-                case = TaxCase.from_llm_output(
-                    scenario_type=scenario_type,
-                    llm_facts=raw_facts,
-                    narrative=raw_narrative,
-                    question=question,
-                    answer=answer,
-                    reasoning_steps=reasoning_steps,
-                    metadata={
-                        "generation_timestamp": datetime.now().isoformat(),
-                        "attempts": attempt + 1,
-                        "model": getattr(self.llm_client, 'model', 'unknown')
-                    }
-                )
-                
-                # Validate the complete case
-                errors = case.validate()
-                if errors:
-                    print(f"  Validation errors: {errors}")
-                    if self.config.get('validation', {}).get('require_consistency', True):
-                        self.stats["validation_failed"] += 1
-                        continue
-                else:
-                    self.stats["validation_passed"] += 1
-                
-                # Save the case
-                filepath = case.save_to_file()
-                self.generated_scenarios.add(scenario_type)
-                self.stats["generated"] += 1
-                
-                print(f"✓ Case generated and saved to {filepath}")
-                return case
-                
-            except Exception as e:
-                print(f"  Attempt {attempt + 1} failed: {e}")
-                continue
-        
-        print(f"✗ Failed to generate valid case after {max_attempts} attempts")
-        return None
+        # Get question dynamically from templates
+        question = self._get_dynamic_question(scenario_type)
+
+        # Generate answer dynamically using LLM based on facts, narrative, and question
+        answer = self.llm_client.generate_dynamic_answer(scenario_type, raw_facts, raw_narrative, question)
+
+        # Generate reasoning steps using template context
+        reasoning_steps = self.llm_client.generate_reasoning_steps(
+            scenario_type, raw_facts, question, answer
+        )
+
+        # Create structured case
+        structured_facts = []
+        for fact_text in raw_facts:
+            fact_type = classify_fact_type(fact_text)
+            structured_facts.append(TaxFact(content=fact_text, fact_type=fact_type))
+
+        case = TaxCase(
+            scenario_type=scenario_type,
+            narrative=raw_narrative,
+            facts=structured_facts,
+            question=question,
+            correct_answer=answer,
+            reasoning_steps=reasoning_steps
+        )
+
+        # Save case
+        case_path = case.save_to_file()
+        self.generated_scenarios.add(scenario_type)
+
+        print(f"✓ Case generated using dynamic template and saved to {case_path}")
+        return case
+    
+    def _get_dynamic_question(self, scenario_type: str) -> str:
+        """
+        Get question dynamically from loaded templates.
+        """
+        if scenario_type in self.domain_questions:
+            return self.domain_questions[scenario_type]
+        else:
+            # Fallback - should not happen if domain exists in templates
+            return "What is the tax treatment?"
     
     def _load_existing_case(self, scenario_type: str) -> Optional[TaxCase]:
-        """Load an existing case from file."""
-        base_dir = self.config.get('paths', {}).get('generated_cases', 'data/generated')
-        filepath = os.path.join(base_dir, scenario_type, f"{scenario_type}.json")
+        """Load existing case if it exists."""
+        filepath = f"data/generated/{scenario_type}/{scenario_type}.json"
         
         if os.path.exists(filepath):
             try:
+                import json
                 with open(filepath, 'r') as f:
                     data = json.load(f)
-                return TaxCase.from_dict(data)
+                
+                # Reconstruct TaxCase from saved data
+                facts = [TaxFact(content=f["content"], fact_type=f["type"]) for f in data["facts"]]
+                
+                return TaxCase(
+                    scenario_type=data["scenario_type"],
+                    narrative=data["narrative"],
+                    facts=facts,
+                    question=data["question"],
+                    correct_answer=data["correct_answer"],
+                    reasoning_steps=data["reasoning_steps"]
+                )
             except Exception as e:
-                print(f"Error loading case: {e}")
+                print(f"Error loading existing case: {e}")
         
         return None
     
-    def generate_all_domains(self, force_regenerate: bool = False) -> List[TaxCase]:
+    def generate_all_domains(self) -> List[TaxCase]:
         """
-        Generate cases for all domains in templates.
-        
-        Args:
-            force_regenerate: Force regeneration of all cases
-            
-        Returns:
-            List of generated TaxCase objects
+        Generate cases for all domains found in templates.
+        Completely dynamic - no hardcoded domain list!
         """
+        # Get all domains dynamically from templates
         available_domains = list(self.domain_manager.get_all_domains().keys())
         
-        print(f"\nGenerating cases for {len(available_domains)} domains...")
-        print("=" * 50)
+        print(f"Generating cases for all {len(available_domains)} domains from templates...")
         
         cases = []
-        for i, domain in enumerate(available_domains, 1):
-            print(f"\n[{i}/{len(available_domains)}] Processing {domain}")
-            case = self.generate_case(domain, force_regenerate)
+        for domain in available_domains:
+            case = self.generate_case(domain)
             if case:
                 cases.append(case)
         
-        # Print statistics
-        self._print_statistics()
-        
         return cases
     
-    def validate_all_generated(self) -> Dict[str, List[str]]:
+    def reload_templates_and_regenerate(self):
         """
-        Validate all generated cases.
-        
-        Returns:
-            Dictionary mapping scenario types to validation errors
+        Reload templates from JSON and update question mappings.
+        Useful after manually editing tax_domains.json
         """
-        base_dir = self.config.get('paths', {}).get('generated_cases', 'data/generated')
-        validation_results = {}
+        print("Reloading templates and updating generator...")
         
-        for scenario_dir in os.listdir(base_dir):
-            scenario_path = os.path.join(base_dir, scenario_dir)
-            if os.path.isdir(scenario_path):
-                json_file = os.path.join(scenario_path, f"{scenario_dir}.json")
-                if os.path.exists(json_file):
-                    try:
-                        case = self._load_existing_case(scenario_dir)
-                        if case:
-                            errors = case.validate()
-                            if errors:
-                                validation_results[scenario_dir] = errors
-                    except Exception as e:
-                        validation_results[scenario_dir] = [f"Load error: {e}"]
-        
-        return validation_results
-    
-    def regenerate_invalid_cases(self) -> List[TaxCase]:
-        """Regenerate cases that fail validation."""
-        validation_results = self.validate_all_generated()
-        regenerated = []
-        
-        if validation_results:
-            print(f"\nRegenerating {len(validation_results)} invalid cases...")
-            for scenario_type in validation_results:
-                print(f"  Regenerating {scenario_type}...")
-                case = self.generate_case(scenario_type, force_regenerate=True)
-                if case:
-                    regenerated.append(case)
-        
-        return regenerated
-    
-    def get_statistics(self) -> Dict[str, Any]:
-        """Get generation statistics."""
-        return {
-            **self.stats,
-            "domains_available": len(self.domain_manager.get_all_domains()),
-            "domains_generated": len(self.generated_scenarios),
-            "success_rate": (self.stats["validation_passed"] / 
-                           max(1, self.stats["validation_passed"] + self.stats["validation_failed"])) * 100
-        }
-    
-    def _print_statistics(self):
-        """Print generation statistics."""
-        stats = self.get_statistics()
-        print("\n" + "=" * 50)
-        print("GENERATION STATISTICS")
-        print("=" * 50)
-        print(f"Domains available:    {stats['domains_available']}")
-        print(f"Cases generated:      {stats['domains_generated']}")
-        print(f"Validation passed:    {stats['validation_passed']}")
-        print(f"Validation failed:    {stats['validation_failed']}")
-        print(f"Regenerations:        {stats['regenerations']}")
-        print(f"Success rate:         {stats['success_rate']:.1f}%")
-    
-    def reload_templates(self):
-        """Reload domain templates from JSON."""
-        print("\nReloading domain templates...")
+        # Reload domains from JSON
         self.domain_manager.reload_domains()
-        self.domain_questions = self.domain_manager.get_domain_questions()
-        print(f"✓ Reloaded {len(self.domain_questions)} domains")
+        
+        # Update question/answer mappings dynamically
+        self.question_templates = self.domain_manager.get_domain_questions_answers()
+        
+        print(f"✓ Reloaded {len(self.question_templates)} domains from updated templates")
     
     def get_available_domains(self) -> List[str]:
-        """Get list of available domains."""
+        """Get list of all domains available in templates."""
         return list(self.domain_manager.get_all_domains().keys())
     
     def get_domain_info(self, domain_name: str) -> Dict[str, Any]:
-        """Get complete information about a domain."""
-        return self.domain_manager.get_domain_context(domain_name)
+        """Get complete information about a domain from templates."""
+        domain = self.domain_manager.get_domain(domain_name)
+        question, answer = self._get_dynamic_question_answer(domain_name)
+        
+        return {
+            "domain_name": domain.domain_name,
+            "description": domain.description,
+            "typical_questions": domain.typical_questions,
+            "primary_question": question,
+            "expected_answer": answer,
+            "reasoning_pattern": domain.reasoning_pattern,
+            "required_facts": domain.required_facts,
+            "tax_rules": domain.tax_rules
+        }
+    
+    def get_generated_scenarios(self) -> List[str]:
+        """Get list of scenarios that have been generated."""
+        return list(self.generated_scenarios)
