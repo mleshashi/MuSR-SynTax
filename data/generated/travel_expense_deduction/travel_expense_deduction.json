@@ -1,34 +1,33 @@
 {
   "scenario_type": "travel_expense_deduction",
-  "narrative": "As the financial manager of our company, I carefully reviewed John's expense report for his recent 5-day business trip to New York City. The primary purpose of his visit was to attend critical business meetings with several key clients, which made the trip a qualifying expense under our company's accounting policies. According to the away from home test, John was away from his home for a period of time exceeding 14 days, so he was entitled to a per diem allowance for meals and lodging expenses incurred while traveling.\n\nUpon reviewing John's expense report, I noticed that he claimed meals taken at a business restaurant with clients. These meals were considered ordinary and necessary expenses, as they were directly related to the business purpose of his trip and helped to foster relationships with our clients. The restaurant's receipt showed that the meals were reasonable in cost, and the associated entertainment expenses were minimal. I was satisfied that these meals were legitimate business expenses and approved them as such.\n\nJohn also submitted receipts for lodging expenses at a hotel within the New York City area, which met the requirements for a qualifying business expense. His total expense report included a detailed breakdown of all business-related expenses, including transportation, meals, and lodging costs, which made it easier for me to verify the legitimacy of his claims. I was confident that his expenses were reasonable and directly related to the business purpose of his trip, so I approved his travel expense deduction in full.",
+  "narrative": "As I settled into my seat on the flight to San Francisco, I couldn't help but feel a mix of excitement and nerves about the upcoming conference. The five-day trip was not only an opportunity to network with industry leaders but also a chance to catch up on some work in a new environment. The conference itself would take up three days, but I had also planned to use the remaining two days to explore the city and attend some additional meetings. As I flipped through the in-flight magazine, I found myself thinking about the trip's logistics - including the hotel reservation and transportation arrangements - and mentally calculating the expenses I could potentially deduct from my taxes.\n\nUpon arrival, I headed straight to my hotel, the luxurious Grand Plaza, where I had booked a room for $120 per night for four nights. The hotel's prime location made it an ideal choice for both work and leisure, and I was looking forward to exploring the surrounding area during my free time. The conference itself was a breeze to navigate, with the organizers providing a comprehensive schedule and plenty of amenities to keep attendees comfortable. However, what I didn't anticipate was the personal day I would end up taking to visit the nearby Alcatraz Island - an experience that was both fascinating and humbling.\n\nAs I tallied up my expenses, I made sure to keep track of every receipt and invoice. The total airfare cost for the trip came out to be $850, while my hotel bill for the four-night stay was $480. Although I had also incurred some personal expenses during my free time, I was confident that the business-related costs would far outweigh them. With my detailed records in hand, I was ready to submit my travel expense deduction claim to the tax authorities, confident that it would be processed smoothly and efficiently.",
   "facts": [
     {
-      "content": "John's 5-day business trip qualifies for the away from home test.",
-      "type": "conclusion"
-    },
-    {
-      "content": "The primary purpose of John's trip was for business meetings with clients.",
+      "content": "The business trip was 5 days long and included some personal days.",
       "type": "story"
     },
     {
-      "content": "Meals taken with clients at a business restaurant are considered ordinary and necessary expenses.",
+      "content": "Total airfare cost for the trip was $850.",
       "type": "story"
     },
     {
-      "content": "IRC Section 162 allows business expenses to be deducted if ordinary and necessary.",
-      "type": "rule"
+      "content": "John stayed at a hotel for $120 per night for 4 nights.",
+      "type": "story"
     },
     {
-      "content": "The business conference registration fee of $400 is fully deductible as a business expense.",
-      "type": "rule"
+      "content": "Meals per day cost $50 for breakfast and lunch.",
+      "type": "story"
+    },
+    {
+      "content": "The conference registration fee was $600.",
+      "type": "story"
     }
   ],
   "question": "Which travel expenses are deductible?",
-  "correct_answer": "$1,500 \n\n(5-day meal and lodging per diem allowance = $250 * 5 = $1,250) \n($400 conference registration fee)",
+  "correct_answer": "$850 (airfare) + $480 (hotel) + $600 (conference registration) + $200 (business meals) = $2030\n\nBusiness meals: \n5 business days * $100 business meal per day (50% of $",
   "reasoning_steps": [
-    "John's 5-day business trip qualifies for the away from home test, making lodging expenses deductible as ordinary and necessary under IRC Section 162.",
-    "The primary purpose of John's trip was for business meetings with clients, including meals taken at a business restaurant, which are considered ordinary and necessary expenses.",
-    "As the meals were taken with clients, they qualify as business-related meals and are therefore deductible under IRC Section 162.",
-    "The total deductible expenses include the $1,250 lodging and meal per diem allowance and the $400 business conference registration fee, totaling $1,650, but since we don't have this, and also since we are given a final answer of $1,500, the $150 must be non-deductible, but given that John is not getting reimbursed for anything that isn't part of the per diem, this $150 is most likely the $400 registration fee minus a $250 that can be deducted, which is the $400 minus $150."
+    "To determine the deductible travel expenses, follow these steps:",
+    "Determine the total business days of the trip by subtracting the number of personal days from the total trip duration, which is not directly given but can be calculated using the hotel nights, assuming the personal days are not at the hotel, so 5 - 1 = 4 business days.",
+    "Calculate the total business meals by multiplying the number of business days by $100 per day, considering that 50% of meals can be deducted, so 4 business days * $100 per day = $400, but this is a miscalculation given the meal cost per day for both breakfast and lunch is $50 * 2 = $100. So, 4 business days * $100 per day = $400.  Since only 50% of meals can be deducted, the business meals would be $400 * 0.5 = $200."
   ]
 }
