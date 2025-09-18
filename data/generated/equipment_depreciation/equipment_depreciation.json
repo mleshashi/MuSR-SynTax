@@ -1,34 +1,34 @@
 {
   "scenario_type": "equipment_depreciation",
-  "narrative": "As the manager of Sunshine Deliveries, Bob had been searching for the perfect vehicle to upgrade their fleet. After months of research and testing, he finally found a reliable and efficient delivery truck that met all their needs. The purchase price of $40,000 was a significant investment, but Bob was confident that it would pay off in the long run. He placed the new truck in service on December 31, 2022, just in time to meet the holiday rush.\n\nThe accounting team at Sunshine Deliveries quickly got to work on depreciating the truck for tax purposes. As a 5-year property under the Modified Accelerated Cost Recovery System (MACRS), the truck would be depreciated over a 5-year period. Using the applicable depreciation rates, they calculated the annual depreciation expense for the truck. In the first year of service (2023), the depreciation expense would be 20% of the truck's cost, which came out to $8,000.\n\nAs the years go by, the depreciation expense for the truck will decrease, with the following rates applying in subsequent years: 32% in year 2, 19.2% in year 3, 11.52% in year 4, and 5.76% in year 5. By depreciating the truck over its useful life, Sunshine Deliveries can deduct a portion of the purchase price each year, reducing their taxable income and minimizing their tax liability. This will not only help the company save on taxes but also provide a clear picture of their expenses and cash flow.",
+  "narrative": "As we embarked on the renovation of our new office building, I couldn't help but think about the financial implications of our investment. The total cost for the renovation and new construction came out to $25,000, a significant expense that we had to carefully budget for. Our accountant, Rachel, walked me through the options for depreciating the equipment and building, explaining that we could use the Modified Accelerated Cost Recovery System (MACRS) to spread out the costs over time. She emphasized that the recovery periods under MACRS varied, ranging from 15 to 39 years, depending on the type of property we were depreciating.\n\nRachel pointed out that since we were placing the new equipment in service on January 1, it would qualify for full-year depreciation, which would give us the maximum amount of deductions for that year. She recommended that we depreciate the building over 39 years, as this was the standard recovery period for non-residential real property under MACRS. The equipment, on the other hand, would be depreciated over a shorter period, as it had a shorter useful life. Rachel explained that this would not only help us reduce our taxable income but also provide us with a more accurate picture of our company's financial performance over time.\n\nAs we finalized the depreciation schedule, I was impressed by how much of a difference it would make in our bottom line. By depreciating the building and equipment over time, we would be able to reduce our taxable income and lower our tax liability. Rachel assured me that this was a common practice for businesses like ours, and that it would help us make the most of our investment in the new office building. With the depreciation schedule in place, we could now focus on enjoying the benefits of our new space, knowing that we had also taken a proactive approach to managing our finances.",
   "facts": [
     {
-      "content": "Bob purchased a new delivery truck for $40000",
+      "content": "The new office building costs $25000",
       "type": "story"
     },
     {
-      "content": "The delivery truck is classified as 5-year property under MACRS",
+      "content": "MACRS recovery periods range from 15 to 39 years",
+      "type": "story"
+    },
+    {
+      "content": "Equipment placed in service on January 1 qualifies for full-year depreciation",
+      "type": "conclusion"
+    },
+    {
+      "content": "A business uses 75% of $30000 worth of equipment for work purposes",
       "type": "rule"
     },
     {
-      "content": "The truck was placed in service on December 31 2022",
-      "type": "story"
-    },
-    {
-      "content": "The business uses the truck 75% of the time",
+      "content": "Section 179 expensing is available up to $180000 in 2023 for qualified property",
       "type": "rule"
-    },
-    {
-      "content": "Total equipment purchases for the year were $60000",
-      "type": "story"
     }
   ],
   "question": "What is the annual depreciation deduction?",
-  "correct_answer": "$6,000 \n\n($40000 * 20% for year 1, 32% for year 2, 19.2% for year 3, 11.52% for year 4, 5.76%",
+  "correct_answer": "$4500 \n\n($18,000 (75% of $24,000) for equipment under Section 179 expensing \n-$18,000 (since Section 179 is fully expensed in the first year) \n+$3000 (5",
   "reasoning_steps": [
-    "The MACRS depreciation rate for a 5-year property is applied to the cost basis of the asset, which in this case is the full $40,000 since it's the only asset classified as 5-year property.",
-    "The annual depreciation deduction for a 5-year property is calculated based on a declining balance method, with the rate being 20% in the first year, 32% in the second year, 19.2% in the third year, 11.52% in the fourth year, and 5.76% in the fifth year.",
-    "To calculate the annual depreciation deduction, only the portion of the asset's cost basis that is used for business purposes is considered. Since the business uses the truck 75% of the time, only 75% of the $40,000 cost basis is eligible for depreciation, which is $30,000.",
-    "The annual depreciation deduction for the first year is 20% of the $30,000 business-use portion of the cost basis, which is $6,000. This calculation does not change for subsequent years, as the depreciation rate only applies to the initial $40,000 cost basis, not to the business-use portion."
+    "To calculate the annual depreciation deduction, follow these steps:",
+    "The business qualifies for Section 179 expensing up to $180,000 in 2023, and the equipment costs $18,000 to the business.",
+    "Given that Section 179 expensing allows for full expensing of qualified property in the first year, the $18,000 depreciation from Section 179 expensing is fully expensed in the first year.",
+    "However, since the equipment costs $30,000 and the business uses 75% of it for work purposes, the adjusted basis is $24,000 (75% of $30,000)."
   ]
 }
