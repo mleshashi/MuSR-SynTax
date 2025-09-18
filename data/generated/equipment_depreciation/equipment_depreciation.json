@@ -1,0 +1,34 @@
+{
+  "scenario_type": "equipment_depreciation",
+  "narrative": "As the manager of Sunshine Deliveries, Bob had been searching for the perfect vehicle to upgrade their fleet. After months of research and testing, he finally found a reliable and efficient delivery truck that met all their needs. The purchase price of $40,000 was a significant investment, but Bob was confident that it would pay off in the long run. He placed the new truck in service on December 31, 2022, just in time to meet the holiday rush.\n\nThe accounting team at Sunshine Deliveries quickly got to work on depreciating the truck for tax purposes. As a 5-year property under the Modified Accelerated Cost Recovery System (MACRS), the truck would be depreciated over a 5-year period. Using the applicable depreciation rates, they calculated the annual depreciation expense for the truck. In the first year of service (2023), the depreciation expense would be 20% of the truck's cost, which came out to $8,000.\n\nAs the years go by, the depreciation expense for the truck will decrease, with the following rates applying in subsequent years: 32% in year 2, 19.2% in year 3, 11.52% in year 4, and 5.76% in year 5. By depreciating the truck over its useful life, Sunshine Deliveries can deduct a portion of the purchase price each year, reducing their taxable income and minimizing their tax liability. This will not only help the company save on taxes but also provide a clear picture of their expenses and cash flow.",
+  "facts": [
+    {
+      "content": "Bob purchased a new delivery truck for $40000",
+      "type": "story"
+    },
+    {
+      "content": "The delivery truck is classified as 5-year property under MACRS",
+      "type": "rule"
+    },
+    {
+      "content": "The truck was placed in service on December 31 2022",
+      "type": "story"
+    },
+    {
+      "content": "The business uses the truck 75% of the time",
+      "type": "rule"
+    },
+    {
+      "content": "Total equipment purchases for the year were $60000",
+      "type": "story"
+    }
+  ],
+  "question": "What is the annual depreciation deduction?",
+  "correct_answer": "$6,000 \n\n($40000 * 20% for year 1, 32% for year 2, 19.2% for year 3, 11.52% for year 4, 5.76%",
+  "reasoning_steps": [
+    "The MACRS depreciation rate for a 5-year property is applied to the cost basis of the asset, which in this case is the full $40,000 since it's the only asset classified as 5-year property.",
+    "The annual depreciation deduction for a 5-year property is calculated based on a declining balance method, with the rate being 20% in the first year, 32% in the second year, 19.2% in the third year, 11.52% in the fourth year, and 5.76% in the fifth year.",
+    "To calculate the annual depreciation deduction, only the portion of the asset's cost basis that is used for business purposes is considered. Since the business uses the truck 75% of the time, only 75% of the $40,000 cost basis is eligible for depreciation, which is $30,000.",
+    "The annual depreciation deduction for the first year is 20% of the $30,000 business-use portion of the cost basis, which is $6,000. This calculation does not change for subsequent years, as the depreciation rate only applies to the initial $40,000 cost basis, not to the business-use portion."
+  ]
+}

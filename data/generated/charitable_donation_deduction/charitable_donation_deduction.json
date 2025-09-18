@@ -1,0 +1,34 @@
+{
+  "scenario_type": "charitable_donation_deduction",
+  "narrative": "As the calendar year drew to a close, Rachel reflected on her philanthropic efforts, determined to maximize her charitable giving before the end of 2023. A long-time supporter of the local children's hospital, she had been considering a significant donation to help fund their pediatric cancer research program. After consulting with her financial advisor, Rachel decided to contribute $8,000 in cash to the hospital's foundation, a qualified 501(c)(3) organization. This donation not only aligned with her values but also offered a tangible tax benefit, as she could claim it as an itemized deduction on her federal return.\n\nRachel's financial advisor also reminded her of the AGI limitation on charitable deductions, which allowed her to deduct a maximum of $7,000 in cash contributions (30% of her $120,000 adjusted gross income). Although she couldn't claim the full $8,000, she was still pleased to have made a meaningful impact on the hospital's mission. In addition to her cash donation, Rachel had also been considering gifting appreciated stock to another charity, but her advisor cautioned her about the 30% AGI limitation on such donations under IRC Section 170. While she could potentially claim a larger deduction for the stock donation, it would be subject to this limitation, so she decided to explore other gifting options.\n\nCome tax time, Rachel's financial advisor would help her complete Schedule A of Form 1040, itemizing her charitable deductions, including the $7,000 cash contribution to the children's hospital. By taking advantage of this tax deduction, Rachel not only supported a worthy cause but also reduced her taxable income, resulting in a lower tax liability for the year. As she looked forward to the new year, Rachel felt inspired to continue her philanthropic efforts, leveraging the tax benefits to amplify her charitable giving and make a lasting impact on her community.",
+  "facts": [
+    {
+      "content": "The taxpayer donates $8000 in cash to a qualified 501(c)(3) charity.",
+      "type": "story"
+    },
+    {
+      "content": "The taxpayer's adjusted gross income (AGI) is $120000.",
+      "type": "story"
+    },
+    {
+      "content": "Donations of appreciated stock are subject to the 30% AGI limitation under IRC Section 170.",
+      "type": "rule"
+    },
+    {
+      "content": "The taxpayer gives $5000 of property with a fair market value of $3000.",
+      "type": "story"
+    },
+    {
+      "content": "The charity is a qualified 501(c)(3) organization.",
+      "type": "story"
+    }
+  ],
+  "question": "How much charitable deduction is allowed?",
+  "correct_answer": "$7,000.",
+  "reasoning_steps": [
+    "The cash donation of $8000 is fully deductible since there's no AGI limitation for cash donations.",
+    "The $5000 donation of property is subject to the $3000 fair market value, as it's less than the $5000 value claimed.",
+    "The remaining $3000 from the property donation and the full $8000 cash donation total $10,000, which exceeds the 30% AGI limitation of $36,000 ($120,000 x 0.30).",
+    "Apply the 30% AGI limitation to the total, limiting the deduction to $36,000, which is more than the total deductions of $10,000."
+  ]
+}
