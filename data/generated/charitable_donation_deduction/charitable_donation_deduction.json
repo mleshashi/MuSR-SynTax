@@ -1,34 +1,34 @@
 {
   "scenario_type": "charitable_donation_deduction",
-  "narrative": "As the holiday season approached, Sarah found herself reflecting on her blessings. She had always been grateful for her family's stability and her own good health, and she felt compelled to give back to those in need. After researching various charities, Sarah decided to donate $800 in cash to St Jude Children's Research Hospital, a renowned institution dedicated to finding cures for childhood cancer and other life-threatening diseases. The organization's commitment to providing free medical care to children from low-income families resonated deeply with Sarah.\n\nIn preparation for tax season, Sarah gathered her documents to ensure she was eligible for a charitable deduction on her donation. She remembered learning that she could deduct her charitable contributions up to a certain percentage of her Adjusted Gross Income (AGI). After calculating her AGI, which came out to $90,000, Sarah confirmed that she was subject to the 50% AGI limitation on her cash donation. According to her tax professional, this meant she could deduct 50% of her AGI, or $45,000, from her total taxable income. Given the $800 donation to St Jude, Sarah was pleased to learn that she could claim a charitable deduction of $400, which she would be able to subtract from her taxable income.\n\nWith her charitable deduction in mind, Sarah felt even more satisfied with her decision to support St Jude. She was proud to contribute to an organization that was making a tangible difference in the lives of young patients and their families. As she prepared to file her taxes, Sarah felt confident that her donation would not only benefit the worthy cause but also bring her a measure of tax relief. By taking advantage of the charitable deduction, Sarah could reduce her tax liability and use the savings to support her own family's well-being.",
+  "narrative": "As the end of the year approached, Sarah began to review her charitable contributions to ensure she could take advantage of the tax benefits. She had been a long-time supporter of her local food bank, which provided essential services to families in need. This year, Sarah had made a particularly generous donation of $500 to help the food bank continue its vital work. The food bank was a qualified 501(c)(3) charity, which meant that her contribution would be eligible for a tax deduction.\n\nWith her adjusted gross income (AGI) of $110,000, Sarah knew she was well within the cash donation limitation of 60% of her AGI. The Internal Revenue Service (IRS) allowed taxpayers to deduct up to 50% of their AGI for cash donations to qualified charities, but in this case, the 60% limit still applied because it was a cash contribution and the 50% limit only applies to non-cash contributions. Sarah was grateful for the opportunity to give back to her community and was looking forward to claiming the deduction on her tax return.\n\nSarah had kept a record of her donation, including the receipt from the food bank and a cancelled check as proof of payment. She would need to report the $500 contribution on Schedule A of her tax return, which listed her itemized deductions. By itemizing her deductions, Sarah could claim the charitable contribution and potentially reduce her taxable income, resulting in a lower tax liability.",
   "facts": [
     {
-      "content": "Sarah donates $800 in cash to St Jude Children's Research Hospital, a qualified 501(c)(3) charity.",
+      "content": "Sarah gave $500 to a local food bank, which is a qualified 501(c)(3) charity.",
       "type": "story"
     },
     {
-      "content": "The 50% AGI limitation applies to Sarah's cash donation of $800.",
+      "content": "The contribution is a cash donation, subject to the 50% AGI limitation.",
       "type": "rule"
     },
     {
-      "content": "Sarah's Adjusted Gross Income (AGI) is $90,000.",
+      "content": "Sarah's adjusted gross income (AGI) is $110,000, below the cash donation limitation.",
       "type": "story"
     },
     {
-      "content": "The cash donation of $800 is fully deductible, as it is below the 50% AGI limitation.",
+      "content": "The $500 cash donation is fully deductible under IRC Section 170.",
       "type": "rule"
     },
     {
-      "content": "The 5-year carryforward rule applies to excess charitable contributions above the 50% AGI limitation.",
-      "type": "rule"
+      "content": "The taxpayer's AGI is above the threshold for larger standard deduction.",
+      "type": "story"
     }
   ],
   "question": "How much charitable deduction is allowed?",
-  "correct_answer": "$400",
+  "correct_answer": "$500",
   "reasoning_steps": [
-    "The 50% AGI limitation applies to Sarah's cash donation of $800.",
-    "Sarah's Adjusted Gross Income (AGI) is $90,000, which is higher than the cash donation of $800, so the limitation applies.",
-    "The cash donation of $800 is greater than 50% of Sarah's AGI (0.5 * $90,000 = $45,000), so the limitation is not met with the $800 in full.",
-    "Since the limitation is 50% of AGI and $800 is below this at $45,000, the full $800 is deductible."
+    "Sarah's $500 cash donation meets the requirements for a charitable deduction because it was made to a qualified 501(c)(3) charity.",
+    "Sarah's contribution is not subject to the 50% AGI limitation since her AGI is below the threshold of this limitation.",
+    "Since her AGI is above the standard deduction threshold, the 50% AGI limitation for cash donations does not apply to her, and she is not subject to any further limitations that would reduce the deduction.",
+    "As a result, Sarah is allowed the full $500 charitable deduction, which is fully deductible under IRC Section 170."
   ]
 }
