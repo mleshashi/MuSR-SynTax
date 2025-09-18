@@ -34,7 +34,7 @@ def main():
         
         # Generate cases for all domains found in templates
         print(f"\nGenerating tax cases...")
-        cases = generator.generate_all_domains()  # No arguments needed - fully dynamic!
+        cases = generator.generate_all_domains()
         
         # Display results
         print(f"\n" + "=" * 50)
@@ -55,7 +55,7 @@ def main():
             print(f"\n" + "-" * 30)
             print("SAMPLE CASE:")
             print("-" * 30)
-            cases[0].display()
+            cases[-1].display()
         
         # Show how to add new domains
         print(f"\n" + "=" * 50)
