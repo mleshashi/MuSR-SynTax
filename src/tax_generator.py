@@ -1,41 +1,60 @@
 """
-Tax case generator that integrates LLM client with core data structures.
-
+Fully dynamic tax case generator - all domain information from JSON templates.
+Add new domains by editing tax_domains.json only!
 """
 import os
 from typing import List, Dict, Any, Optional
 
 from core import TaxCase, TaxFact, classify_fact_type
 from llm_client import GroqClient
+from tax_domains import TaxDomainManager
 
 
 class TaxGenerator:
     """
-    Main generator class that creates complete tax reasoning cases.
-    Implements MuSR framework: Template → Reasoning → Story Generation
+    Fully dynamic generator - all domain info comes from JSON templates.
+    Add new domains by editing tax_domains.json only!
     """
     
     def __init__(self, api_key: Optional[str] = None) -> None:
-        """Initialize the tax generator with LLM client."""
+        """Initialize dynamic tax generator."""
         self.llm_client = GroqClient(api_key=api_key)
-        self.generated_scenarios = set()  # Track generated scenarios to prevent duplicates
+        self.domain_manager = TaxDomainManager()
+        self.generated_scenarios = set()
+        
+        # Get all question/answer mappings dynamically from templates
+        self.question_templates = self.domain_manager.get_domain_questions_answers()
+        
+        print(f"✓ Dynamic generator initialized with {len(self.question_templates)} domains from templates")
     
     def generate_case(self, scenario_type: str, context: str = "") -> TaxCase:
         """
-        Generate a complete tax reasoning case using MuSR framework.
-        Only generates if not already generated to prevent duplicates.
+        Generate a complete tax reasoning case using dynamic templates.
+        All domain information comes from tax_domains.json!
         """
+        # Check if domain exists in templates
+        if scenario_type not in self.domain_manager.get_all_domains():
+            available_domains = list(self.domain_manager.get_all_domains().keys())
+            raise ValueError(f"Domain '{scenario_type}' not found in templates. Available: {available_domains}")
+        
         # Check if already generated
         if scenario_type in self.generated_scenarios:
             print(f"Case for {scenario_type} already exists, skipping duplicate generation")
             return self._load_existing_case(scenario_type)
         
-        print(f"Generating {scenario_type} case...")
+        print(f"Generating {scenario_type} case using dynamic templates...")
         
-        # Generate all components
-        raw_facts = self.llm_client.generate_tax_facts(scenario_type, context)
+        # Get domain context dynamically from templates
+        domain_context = self.domain_manager.get_domain_context(scenario_type)
+        
+        # Generate all components using template information
+        raw_facts = self.llm_client.generate_tax_facts(scenario_type, domain_context + "\n" + context)
         raw_narrative = self.llm_client.generate_tax_narrative(scenario_type, raw_facts[:3])
-        question, answer = self._generate_question_answer(scenario_type)
+        
+        # Get question and answer dynamically from templates
+        question, answer = self._get_dynamic_question_answer(scenario_type)
+        
+        # Generate reasoning steps using template context
         reasoning_steps = self.llm_client.generate_reasoning_steps(
             scenario_type, raw_facts, question, answer
         )
@@ -55,12 +74,23 @@ class TaxGenerator:
             reasoning_steps=reasoning_steps
         )
         
-        # Save case (overwrites any existing file)
+        # Save case
         case_path = case.save_to_file()
         self.generated_scenarios.add(scenario_type)
         
-        print(f"✓ Case generated and saved to {case_path}")
+        print(f"✓ Case generated using dynamic template and saved to {case_path}")
         return case
+    
+    def _get_dynamic_question_answer(self, scenario_type: str) -> tuple[str, str]:
+        """
+        Get question and answer dynamically from loaded templates.
+        No hardcoded mappings!
+        """
+        if scenario_type in self.question_templates:
+            return self.question_templates[scenario_type]
+        else:
+            # Fallback - should not happen if domain exists in templates
+            return ("What is the tax treatment?", "Apply relevant tax rules")
     
     def _load_existing_case(self, scenario_type: str) -> Optional[TaxCase]:
         """Load existing case if it exists."""
@@ -88,46 +118,58 @@ class TaxGenerator:
         
         return None
     
-    def generate_all_domains(self, domain_list: List[str]) -> List[TaxCase]:
+    def generate_all_domains(self) -> List[TaxCase]:
         """
-        Generate cases for all specified domains (one per domain).
+        Generate cases for all domains found in templates.
+        Completely dynamic - no hardcoded domain list!
         """
+        # Get all domains dynamically from templates
+        available_domains = list(self.domain_manager.get_all_domains().keys())
+        
+        print(f"Generating cases for all {len(available_domains)} domains from templates...")
+        
         cases = []
-        for domain in domain_list:
+        for domain in available_domains:
             case = self.generate_case(domain)
             if case:
                 cases.append(case)
         
         return cases
     
-    def _generate_question_answer(self, scenario_type: str) -> tuple[str, str]:
-        """Generate appropriate question and answer pair for the scenario."""
+    def reload_templates_and_regenerate(self):
+        """
+        Reload templates from JSON and update question mappings.
+        Useful after manually editing tax_domains.json
+        """
+        print("Reloading templates and updating generator...")
         
-        question_templates = {
-            'business_meal_deduction': (
-                'How much of the meal expense is deductible?', 
-                '50% of the meal cost (subject to IRC Section 274)'
-            ),
-            'home_office_deduction': (
-                'What percentage of home expenses can be deducted?', 
-                'Business use percentage of total home area'
-            ),
-            'travel_expense_deduction': (
-                'Which travel expenses are deductible?', 
-                'Ordinary and necessary business travel costs'
-            ),
-            'charitable_donation_deduction': (
-                'How much charitable deduction is allowed?', 
-                'Up to AGI limits under IRC Section 170'
-            ),
-            'vehicle_expense_deduction': (
-                'What vehicle expenses are deductible?',
-                'Business use percentage of total vehicle costs'
-            )
+        # Reload domains from JSON
+        self.domain_manager.reload_domains()
+        
+        # Update question/answer mappings dynamically
+        self.question_templates = self.domain_manager.get_domain_questions_answers()
+        
+        print(f"✓ Reloaded {len(self.question_templates)} domains from updated templates")
+    
+    def get_available_domains(self) -> List[str]:
+        """Get list of all domains available in templates."""
+        return list(self.domain_manager.get_all_domains().keys())
+    
+    def get_domain_info(self, domain_name: str) -> Dict[str, Any]:
+        """Get complete information about a domain from templates."""
+        domain = self.domain_manager.get_domain(domain_name)
+        question, answer = self._get_dynamic_question_answer(domain_name)
+        
+        return {
+            "domain_name": domain.domain_name,
+            "description": domain.description,
+            "typical_questions": domain.typical_questions,
+            "primary_question": question,
+            "expected_answer": answer,
+            "reasoning_pattern": domain.reasoning_pattern,
+            "required_facts": domain.required_facts,
+            "tax_rules": domain.tax_rules
         }
-        
-        return question_templates.get(scenario_type, 
-                                    ('What is the tax treatment?', 'Apply relevant tax rules'))
     
     def get_generated_scenarios(self) -> List[str]:
         """Get list of scenarios that have been generated."""
